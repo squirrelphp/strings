@@ -16,6 +16,8 @@ class ClassWithPrivateProperties
      */
     private $text;
 
+    private $noAnnotation;
+
     public function getTitle()
     {
         return $this->title;

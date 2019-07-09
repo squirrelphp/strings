@@ -6,12 +6,9 @@ use Squirrel\Strings\Common\RegexExceptionTrait;
 use Squirrel\Strings\StringFilterInterface;
 
 /**
- * Forcefully wrap long words by adding spaces after a certain number of characters
- *
- * - HTML tags are preserved if $htmlAllowed is set to true
- * - HTML tags count as one character each
+ * Forcefully wrap long words by adding spaces after a certain number of characters - factor in HTML
  */
-class WrapLongWordsFilter implements StringFilterInterface
+class WrapLongWordsWithHTMLFilter implements StringFilterInterface
 {
     use RegexExceptionTrait;
 
@@ -21,57 +18,14 @@ class WrapLongWordsFilter implements StringFilterInterface
     private $maxCharacters = 80;
 
     /**
-     * @var bool
-     */
-    private $htmlAllowed = false;
-
-    /**
      * @param int $maxCharacters
-     * @param bool $htmlAllowed
      */
-    public function __construct(int $maxCharacters = 80, bool $htmlAllowed = false)
+    public function __construct(int $maxCharacters = 80)
     {
         $this->maxCharacters = $maxCharacters;
-        $this->htmlAllowed = $htmlAllowed;
     }
 
     public function filter(string $string): string
-    {
-        // No HTML allowed - this makes it easier to wrap
-        if ($this->htmlAllowed === false) {
-            return $this->wrapNonHTML($string);
-        }
-
-        // Factor in HTML tags
-        return $this->wrapWithHTML($string);
-    }
-
-    /**
-     * Wrap long words and do not factor in HTML
-     *
-     * @param string $string
-     * @return string
-     */
-    private function wrapNonHTML(string $string): string
-    {
-        $string = \preg_replace("/([^ \n]{" . $this->maxCharacters . '})(?=[^ \n])/siu', "\\1 ", $string);
-
-        // @codeCoverageIgnoreStart
-        if ($string === null) {
-            throw $this->generateRegexException();
-        }
-        // @codeCoverageIgnoreEnd
-
-        return $string;
-    }
-
-    /**
-     * Wrap long words without disturbing existing HTML tags
-     *
-     * @param string $string
-     * @return string
-     */
-    private function wrapWithHTML(string $string): string
     {
         // Look for HTML tags
         if (\preg_match_all('/([<][^>]+[>])/si', $string, $tags)) {
@@ -105,8 +59,28 @@ class WrapLongWordsFilter implements StringFilterInterface
             }
 
             return $string;
-        } else { // No HTML tags found - use the non-HTML wrapper
-            return $this->wrapNonHTML($string);
         }
+
+        // No HTML tags found - use the non-HTML wrapper
+        return $this->wrapNonHTML($string);
+    }
+
+    /**
+     * Wrap long words and do not factor in HTML
+     *
+     * @param string $string
+     * @return string
+     */
+    private function wrapNonHTML(string $string): string
+    {
+        $string = \preg_replace("/([^ \n]{" . $this->maxCharacters . '})(?=[^ \n])/siu', "\\1 ", $string);
+
+        // @codeCoverageIgnoreStart
+        if ($string === null) {
+            throw $this->generateRegexException();
+        }
+        // @codeCoverageIgnoreEnd
+
+        return $string;
     }
 }

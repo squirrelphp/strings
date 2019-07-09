@@ -15,4 +15,6 @@ class ClassWithPublicProperties
      * @StringFilter("Trim")
      */
     public $text = '';
+
+    public $noAnnotation;
 }

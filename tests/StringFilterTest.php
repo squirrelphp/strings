@@ -27,7 +27,8 @@ use Squirrel\Strings\Filter\TrimFilter;
 use Squirrel\Strings\Filter\UppercaseFilter;
 use Squirrel\Strings\Filter\UppercaseFirstCharacterFilter;
 use Squirrel\Strings\Filter\UppercaseWordsFirstCharacterFilter;
-use Squirrel\Strings\Filter\WrapLongWordsFilter;
+use Squirrel\Strings\Filter\WrapLongWordsNoHTMLFilter;
+use Squirrel\Strings\Filter\WrapLongWordsWithHTMLFilter;
 
 /**
  * Test all string filters with a string where all special cases are contained
@@ -123,34 +124,34 @@ class StringFilterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals("  &amp; haha <strong>many</strong>   &nbsp;  grss gtter   \r\n\n\n\t  \n  \n  <invalid>\"l'etat\"\\ thing contained!!!&trade; ", (new RemoveNonUTF8CharactersFilter())->filter($nonUTF8));
     }
 
-    public function testWrapLongWordsNonHTML()
+    public function testWrapLongWordsNoHTML()
     {
         $string = '123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890';
 
-        $this->assertEquals('123456789012345678901234567890 123456789012345678901234567890 123456789012345678901234567890', (new WrapLongWordsFilter(30, false))->filter($string));
+        $this->assertEquals('123456789012345678901234567890 123456789012345678901234567890 123456789012345678901234567890', (new WrapLongWordsNoHTMLFilter(30))->filter($string));
 
-        $this->assertEquals('1234567890123456789012345678901234567890123456789012345678901234567890 12345678901234567890', (new WrapLongWordsFilter(70, false))->filter($string));
+        $this->assertEquals('1234567890123456789012345678901234567890123456789012345678901234567890 12345678901234567890', (new WrapLongWordsNoHTMLFilter(70))->filter($string));
     }
 
     public function testWrapLongWordsWithHTML()
     {
         $string = '123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890';
 
-        $this->assertEquals('123456789012345678901234567890 123456789012345678901234567890 123456789012345678901234567890', (new WrapLongWordsFilter(30, true))->filter($string));
+        $this->assertEquals('123456789012345678901234567890 123456789012345678901234567890 123456789012345678901234567890', (new WrapLongWordsWithHTMLFilter(30))->filter($string));
 
-        $this->assertEquals('1234567890123456789012345678901234567890123456789012345678901234567890 12345678901234567890', (new WrapLongWordsFilter(70, true))->filter($string));
+        $this->assertEquals('1234567890123456789012345678901234567890123456789012345678901234567890 12345678901234567890', (new WrapLongWordsWithHTMLFilter(70))->filter($string));
 
         $string = '<strong>1234567890123456789012345678901234567890</strong>';
 
-        /**
+        /*
          * We separate after 29 numbers because each HTML tag counts as ONE character, so
          * HTML tag + 29 numbers = 30 characters
          */
-        $this->assertEquals('<strong>12345678901234567890123456789 01234567890</strong>', (new WrapLongWordsFilter(30, true))->filter($string));
+        $this->assertEquals('<strong>12345678901234567890123456789 01234567890</strong>', (new WrapLongWordsWithHTMLFilter(30))->filter($string));
 
         $string = '<strong> 1234567890123456789012345678901234567890 </strong>';
 
-        $this->assertEquals('<strong> 123456789012345678901234567890 1234567890 </strong>', (new WrapLongWordsFilter(30, true))->filter($string));
+        $this->assertEquals('<strong> 123456789012345678901234567890 1234567890 </strong>', (new WrapLongWordsWithHTMLFilter(30))->filter($string));
     }
 
     public function testRemoveNonAlphanumeric()

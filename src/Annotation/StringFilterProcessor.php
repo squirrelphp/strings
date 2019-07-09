@@ -33,12 +33,9 @@ class StringFilterProcessor
      * Processes a class according to its StringFilter annotations
      *
      * @param object $class
-     * @return string[]
      */
-    public function process(object $class): array
+    public function process(object $class): void
     {
-        $processedProperties = [];
-
         // Get class reflection data
         $annotationClass = new \ReflectionClass($class);
 
@@ -56,34 +53,51 @@ class StringFilterProcessor
                 StringFilter::class
             );
 
-            // A StringFilters annotation was found
-            if ($stringFilters instanceof StringFilter) {
-                $processedProperties[] = $property->getName();
-
-                // Get the property value via reflection
-                $propertyValue = $annotationProperty->getValue($class);
-
-                // Convert to string if it currently is not a string
-                if (!isset($propertyValue)) {
-                    $propertyValue = '';
-                }
-
-                // Array of strings as property value
-                if (\is_array($propertyValue)) {
-                    foreach ($propertyValue as $key => $value) {
-                        $propertyValue[$key] = $this->filterValue($stringFilters->names, $value);
-                    }
-                } elseif (\is_scalar($propertyValue)) { // Regular string as property value
-                    $propertyValue = $this->filterValue($stringFilters->names, \strval($propertyValue));
-                } else {
-                    throw $this->generateInvalidValueException('String filter annotation values can only be a string or an array');
-                }
-
-                $annotationProperty->setValue($class, $propertyValue);
+            // A StringFilters annotation was not found
+            if (!($stringFilters instanceof StringFilter)) {
+                continue;
             }
+
+            // Get the property value via reflection
+            $propertyValue = $annotationProperty->getValue($class);
+
+            // If the value is null we skip it
+            if ($propertyValue === null) {
+                continue;
+            }
+
+            $propertyValue = $this->filterScalarOrArray($propertyValue, $stringFilters->names);
+
+            $annotationProperty->setValue($class, $propertyValue);
+        }
+    }
+
+    /**
+     * @param mixed $propertyValue
+     * @param string|array $stringFilters
+     * @return string|array
+     */
+    private function filterScalarOrArray($propertyValue, $stringFilters)
+    {
+        if ((!\is_array($propertyValue) && !\is_scalar($propertyValue))
+            || \is_bool($propertyValue)
+        ) {
+            throw $this->generateInvalidValueException('String filter annotation values can only be a non-boolean scalar or an array');
         }
 
-        return $processedProperties;
+        if (\is_scalar($propertyValue)) { // One scalar value
+            return $this->filterValue($stringFilters, \strval($propertyValue));
+        }
+
+        foreach ($propertyValue as $key => $value) {
+            if (!\is_scalar($value) || \is_bool($value)) {
+                throw $this->generateInvalidValueException('String filter annotation array values have to all be scalar and non-boolean');
+            }
+
+            $propertyValue[$key] = $this->filterValue($stringFilters, \strval($value));
+        }
+
+        return $propertyValue;
     }
 
     /**

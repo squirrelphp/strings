@@ -21,12 +21,12 @@ class GeneratorAscii implements RandomStringGeneratorInterface
     /**
      * @var int Number of possible values
      */
-    private $valuesNumber = 0;
+    protected $valuesNumber = 0;
 
     /**
      * @var array Possible values for random strings as an array
      */
-    private $possibleValues = [];
+    protected $possibleValues = [];
 
     /**
      * @param string $characters

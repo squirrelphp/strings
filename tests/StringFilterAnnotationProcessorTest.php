@@ -79,7 +79,17 @@ class StringFilterAnnotationProcessorTest extends \PHPUnit\Framework\TestCase
         $this->expectException(InvalidValueException::class);
 
         $testClass = new ClassWithPublicProperties();
-        $testClass->title = new \stdClass();
+        $testClass->title = new \stdClass(); // object values are not allowed
+
+        $this->processor->process($testClass);
+    }
+
+    public function testInvalidArrayValue()
+    {
+        $this->expectException(InvalidValueException::class);
+
+        $testClass = new ClassWithPublicProperties();
+        $testClass->title = [false]; // boolean values are not allowed
 
         $this->processor->process($testClass);
     }
