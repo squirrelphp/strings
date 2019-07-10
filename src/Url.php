@@ -2,6 +2,7 @@
 
 namespace Squirrel\Strings;
 
+use Squirrel\Debug\Debug;
 use Squirrel\Strings\Exception\UrlException;
 
 class Url
