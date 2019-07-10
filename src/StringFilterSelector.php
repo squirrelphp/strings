@@ -7,7 +7,7 @@ use Squirrel\Strings\Common\InvalidValueExceptionTrait;
 /**
  * Handles all string filters
  */
-class StringFilterManager implements StringFilterSelectInterface
+class StringFilterSelector implements StringFilterSelectInterface
 {
     use InvalidValueExceptionTrait;
 

@@ -7,7 +7,7 @@ use Squirrel\Strings\Common\InvalidValueExceptionTrait;
 /**
  * Handles all random string generators
  */
-class RandomStringGeneratorManager implements RandomStringGeneratorSelectInterface
+class RandomStringGeneratorSelector implements RandomStringGeneratorSelectInterface
 {
     use InvalidValueExceptionTrait;
 

@@ -6,8 +6,8 @@ use Squirrel\Strings\Exception\InvalidValueException;
 use Squirrel\Strings\Filter\LowercaseFilter;
 use Squirrel\Strings\Filter\TrimFilter;
 use Squirrel\Strings\Random\GeneratorAscii;
-use Squirrel\Strings\RandomStringGeneratorManager;
-use Squirrel\Strings\StringFilterManager;
+use Squirrel\Strings\RandomStringGeneratorSelector;
+use Squirrel\Strings\StringFilterSelector;
 use Squirrel\Strings\Twig\StringExtension;
 
 class TwigExtensionTest extends \PHPUnit\Framework\TestCase
@@ -19,12 +19,12 @@ class TwigExtensionTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
-        $filterManager = new StringFilterManager([
+        $filterManager = new StringFilterSelector([
             'Lowercase' => new LowercaseFilter(),
             'Trim' => new TrimFilter(),
         ]);
 
-        $randomManager = new RandomStringGeneratorManager([
+        $randomManager = new RandomStringGeneratorSelector([
             'one' => new GeneratorAscii('346789'),
             'eighteen' => new GeneratorAscii('18'),
         ]);

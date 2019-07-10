@@ -29,36 +29,7 @@ class WrapLongWordsWithHTMLFilter implements StringFilterInterface
     {
         // Look for HTML tags
         if (\preg_match_all('/([<][^>]+[>])/si', $string, $tags)) {
-            // Exchange all tags with character 17
-            $string = \preg_replace('/[<][^>]+[>]/si', \chr(17), $string);
-
-            // @codeCoverageIgnoreStart
-            if ($string === null) {
-                throw $this->generateRegexException();
-            }
-            // @codeCoverageIgnoreEnd
-
-            // Add extra spaces to break up long words
-            $string = \preg_replace("/([^ \n]{" . $this->maxCharacters . '})(?=[^ \n])/siu', "\\1 ", $string);
-
-            // @codeCoverageIgnoreStart
-            if ($string === null) {
-                throw $this->generateRegexException();
-            }
-            // @codeCoverageIgnoreEnd
-
-            // Put HTML tags back into the string - exchange characters 17 with HTML tags
-            foreach ($tags[0] as $key => $val) {
-                $string = \preg_replace('/' . \chr(17) . '/si', $tags[0][$key], $string, 1);
-
-                // @codeCoverageIgnoreStart
-                if ($string === null) {
-                    throw $this->generateRegexException();
-                }
-                // @codeCoverageIgnoreEnd
-            }
-
-            return $string;
+            return $this->wrapHTML($string, $tags);
         }
 
         // No HTML tags found - use the non-HTML wrapper
@@ -66,7 +37,7 @@ class WrapLongWordsWithHTMLFilter implements StringFilterInterface
     }
 
     /**
-     * Wrap long words and do not factor in HTML
+     * Wrap long words when there is no HTML tags in the string
      *
      * @param string $string
      * @return string
@@ -80,6 +51,47 @@ class WrapLongWordsWithHTMLFilter implements StringFilterInterface
             throw $this->generateRegexException();
         }
         // @codeCoverageIgnoreEnd
+
+        return $string;
+    }
+
+    /**
+     * Wrap long words and count HTML elements as only one character each
+     *
+     * @param string $string
+     * @param array $tags
+     * @return string
+     */
+    private function wrapHTML(string $string, array $tags): string
+    {
+        // Exchange all tags with character 17
+        $string = \preg_replace('/[<][^>]+[>]/si', \chr(17), $string);
+
+        // @codeCoverageIgnoreStart
+        if ($string === null) {
+            throw $this->generateRegexException();
+        }
+        // @codeCoverageIgnoreEnd
+
+        // Add extra spaces to break up long words
+        $string = \preg_replace("/([^ \n]{" . $this->maxCharacters . '})(?=[^ \n])/siu', "\\1 ", $string);
+
+        // @codeCoverageIgnoreStart
+        if ($string === null) {
+            throw $this->generateRegexException();
+        }
+        // @codeCoverageIgnoreEnd
+
+        // Put HTML tags back into the string - exchange characters 17 with HTML tags
+        foreach ($tags[0] as $key => $val) {
+            $string = \preg_replace('/' . \chr(17) . '/si', $tags[0][$key], $string, 1);
+
+            // @codeCoverageIgnoreStart
+            if ($string === null) {
+                throw $this->generateRegexException();
+            }
+            // @codeCoverageIgnoreEnd
+        }
 
         return $string;
     }

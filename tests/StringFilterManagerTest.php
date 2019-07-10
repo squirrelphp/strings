@@ -5,7 +5,7 @@ namespace Squirrel\Strings\Tests;
 use Squirrel\Strings\Exception\InvalidValueException;
 use Squirrel\Strings\Filter\LowercaseFilter;
 use Squirrel\Strings\Filter\TrimFilter;
-use Squirrel\Strings\StringFilterManager;
+use Squirrel\Strings\StringFilterSelector;
 
 class StringFilterManagerTest extends \PHPUnit\Framework\TestCase
 {
@@ -16,7 +16,7 @@ class StringFilterManagerTest extends \PHPUnit\Framework\TestCase
             'Trim' => new TrimFilter(),
         ];
 
-        $manager = new StringFilterManager($filters);
+        $manager = new StringFilterSelector($filters);
 
         $this->assertSame($filters['Lowercase'], $manager->getFilter('Lowercase'));
         $this->assertSame($filters['Trim'], $manager->getFilter('Trim'));
@@ -26,7 +26,7 @@ class StringFilterManagerTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(InvalidValueException::class);
 
-        $manager = new StringFilterManager([]);
+        $manager = new StringFilterSelector([]);
         $manager->getFilter('dada');
     }
 }

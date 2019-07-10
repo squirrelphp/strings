@@ -8,7 +8,7 @@ use Squirrel\Strings\Annotation\StringFilterExtension;
 use Squirrel\Strings\Annotation\StringFilterProcessor;
 use Squirrel\Strings\Filter\LowercaseFilter;
 use Squirrel\Strings\Filter\TrimFilter;
-use Squirrel\Strings\StringFilterManager;
+use Squirrel\Strings\StringFilterSelector;
 use Squirrel\Strings\Tests\TestClasses\ClassWithPrivateProperties;
 use Squirrel\Strings\Tests\TestClasses\ClassWithPublicProperties;
 use Squirrel\Strings\Tests\TestForms\PrivatePropertiesForm;
@@ -32,7 +32,7 @@ class FormExtensionTest extends \PHPUnit\Framework\TestCase
         $reader = new AnnotationReader();
 
         // String filters available
-        $manager = new StringFilterManager([
+        $manager = new StringFilterSelector([
             'Lowercase' => new LowercaseFilter(),
             'Trim' => new TrimFilter(),
         ]);
