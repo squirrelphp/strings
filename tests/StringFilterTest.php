@@ -10,7 +10,7 @@ use Squirrel\Strings\Filter\LimitConsecutiveUnixNewlinesFilter;
 use Squirrel\Strings\Filter\LowercaseFilter;
 use Squirrel\Strings\Filter\NormalizeLettersToAsciiFilter;
 use Squirrel\Strings\Filter\RemoveExcessSpacesFilter;
-use Squirrel\Strings\Filter\RemoveHTMLFilter;
+use Squirrel\Strings\Filter\RemoveHTMLTagsFilter;
 use Squirrel\Strings\Filter\RemoveNonAlphanumericFilter;
 use Squirrel\Strings\Filter\RemoveNonAsciiAndControlCharactersFilter;
 use Squirrel\Strings\Filter\RemoveNonNumericFilter;
@@ -69,7 +69,7 @@ class StringFilterTest extends \PHPUnit\Framework\TestCase
 
     public function testRemoveHTML()
     {
-        $this->assertEquals("  &amp; haha many \xc2\xa0  &nbsp;  grüss götter   \r\n\n\n\t  \n  \n  \"l'etat\"\\ thing contained!!!&trade; ", (new RemoveHTMLFilter())->filter($this->testString));
+        $this->assertEquals("  &amp; haha many \xc2\xa0  &nbsp;  grüss götter   \r\n\n\n\t  \n  \n  \"l'etat\"\\ thing contained!!!&trade; ", (new RemoveHTMLTagsFilter())->filter($this->testString));
     }
 
     public function testReplaceNewlinesWithSpaces()

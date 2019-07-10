@@ -7,7 +7,7 @@ use Squirrel\Strings\StringFilterInterface;
 /**
  * Remove HTML tags
  */
-class RemoveHTMLFilter implements StringFilterInterface
+class RemoveHTMLTagsFilter implements StringFilterInterface
 {
     public function filter(string $string): string
     {
