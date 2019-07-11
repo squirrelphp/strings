@@ -7,7 +7,7 @@ use Squirrel\Strings\Filter\LowercaseFilter;
 use Squirrel\Strings\Filter\TrimFilter;
 use Squirrel\Strings\StringFilterSelector;
 
-class StringFilterManagerTest extends \PHPUnit\Framework\TestCase
+class StringFilterSelectorTest extends \PHPUnit\Framework\TestCase
 {
     public function testRegular()
     {

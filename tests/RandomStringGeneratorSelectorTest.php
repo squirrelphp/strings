@@ -7,7 +7,7 @@ use Squirrel\Strings\Random\GeneratorAscii;
 use Squirrel\Strings\Random\GeneratorUnicode;
 use Squirrel\Strings\RandomStringGeneratorSelector;
 
-class RandomStringGeneratorManagerTest extends \PHPUnit\Framework\TestCase
+class RandomStringGeneratorSelectorTest extends \PHPUnit\Framework\TestCase
 {
     public function testRegular()
     {

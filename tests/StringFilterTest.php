@@ -9,12 +9,15 @@ use Squirrel\Strings\Filter\EncodeBasicHTMLEntitiesFilter;
 use Squirrel\Strings\Filter\LimitConsecutiveUnixNewlinesFilter;
 use Squirrel\Strings\Filter\LowercaseFilter;
 use Squirrel\Strings\Filter\NormalizeLettersToAsciiFilter;
+use Squirrel\Strings\Filter\NormalizeToAlphanumericFilter;
+use Squirrel\Strings\Filter\RemoveEmailsFilter;
 use Squirrel\Strings\Filter\RemoveExcessSpacesFilter;
 use Squirrel\Strings\Filter\RemoveHTMLTagsFilter;
 use Squirrel\Strings\Filter\RemoveNonAlphanumericFilter;
 use Squirrel\Strings\Filter\RemoveNonAsciiAndControlCharactersFilter;
 use Squirrel\Strings\Filter\RemoveNonNumericFilter;
 use Squirrel\Strings\Filter\RemoveNonUTF8CharactersFilter;
+use Squirrel\Strings\Filter\RemoveURLsFilter;
 use Squirrel\Strings\Filter\ReplaceNewlinesWithParagraphsAndBreaksFilter;
 use Squirrel\Strings\Filter\ReplaceNewlinesWithSpacesFilter;
 use Squirrel\Strings\Filter\ReplaceNonAlphanumericFilter;
@@ -257,6 +260,60 @@ class StringFilterTest extends \PHPUnit\Framework\TestCase
 
         foreach ($tests as $testString => $expectedResult) {
             $string = (new CamelCaseToSnakeCaseFilter())->filter($testString);
+
+            $this->assertEquals($expectedResult, $string);
+        }
+    }
+
+    public function testRemoveEmails()
+    {
+        $tests = array(
+            'hello my dear, have you written to hans@domain.com?' => 'hello my dear, have you written to ',
+            'merry@localhost has sent you a new message!' => ' has sent you a new message!',
+            'A new email was received from complicated.domain-name@many.subdomains.in.this.email today at noon!' => 'A new email was received from  today at noon!',
+            'Test partial emails with partial@ which should not be removed' => 'Test partial emails with partial@ which should not be removed',
+            'Test other partial emails with @example.com which should not be removed' => 'Test other partial emails with @example.com which should not be removed',
+        );
+
+        $filter = (new RemoveEmailsFilter());
+
+        foreach ($tests as $testString => $expectedResult) {
+            $string = $filter->filter($testString);
+
+            $this->assertEquals($expectedResult, $string);
+        }
+    }
+
+    public function testRemoveURLs()
+    {
+        $tests = array(
+            'hello my dear, look at this link: https://www.domain.com/a/long/path/34234/more?space=true&more=1 should be interesting!' => 'hello my dear, look at this link:  should be interesting!',
+            'ftp://link.to/file.jpg' => '',
+            'Some devices have weird links with custom scheme, like weirdapp:http://weirddomain.de' => 'Some devices have weird links with custom scheme, like ',
+            'If no :// is contained we do not remove an URL, like domain.com/path/example should remain' => 'If no :// is contained we do not remove an URL, like domain.com/path/example should remain',
+            'A scheme like 3048534://domain.com is not valid, yet will still be removed, as is a partial URL like http:// just to remove as much as possible' => 'A scheme like  is not valid, yet will still be removed, as is a partial URL like  just to remove as much as possible',
+        );
+
+        $filter = (new RemoveURLsFilter());
+
+        foreach ($tests as $testString => $expectedResult) {
+            $string = $filter->filter($testString);
+
+            $this->assertEquals($expectedResult, $string);
+        }
+    }
+
+    public function testNormalizeToAlphanumeric()
+    {
+        $tests = array(
+            ' sœmoéhaha ööhm ûlty! ' => 'soemoehahaoohmulty',
+            ' éßen ĜħŞŽŷť ƇƚƲǊǗ! ' => 'essenGhSZytClVNJU',
+        );
+
+        $filter = (new NormalizeToAlphanumericFilter());
+
+        foreach ($tests as $testString => $expectedResult) {
+            $string = $filter->filter($testString);
 
             $this->assertEquals($expectedResult, $string);
         }
