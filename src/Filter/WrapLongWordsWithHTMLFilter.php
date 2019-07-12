@@ -6,7 +6,7 @@ use Squirrel\Strings\Common\RegexExceptionTrait;
 use Squirrel\Strings\StringFilterInterface;
 
 /**
- * Forcefully wrap long words by adding spaces after a certain number of characters - factor in HTML
+ * Forcefully wrap long words by adding zero width spaces after a certain number of characters - factor in HTML
  */
 class WrapLongWordsWithHTMLFilter implements StringFilterInterface
 {
@@ -15,12 +15,12 @@ class WrapLongWordsWithHTMLFilter implements StringFilterInterface
     /**
      * @var int
      */
-    private $maxCharacters = 80;
+    private $maxCharacters = 20;
 
     /**
      * @param int $maxCharacters
      */
-    public function __construct(int $maxCharacters = 80)
+    public function __construct(int $maxCharacters = 20)
     {
         $this->maxCharacters = $maxCharacters;
     }
@@ -44,7 +44,7 @@ class WrapLongWordsWithHTMLFilter implements StringFilterInterface
      */
     private function wrapNonHTML(string $string): string
     {
-        $string = \preg_replace("/([^ \n]{" . $this->maxCharacters . '})(?=[^ \n])/siu', "\\1 ", $string);
+        $string = \preg_replace("/([^ \n]{" . $this->maxCharacters . '})(?=[^ \n])/siu', "\\1\u{200B}", $string);
 
         // @codeCoverageIgnoreStart
         if ($string === null) {
@@ -73,8 +73,8 @@ class WrapLongWordsWithHTMLFilter implements StringFilterInterface
         }
         // @codeCoverageIgnoreEnd
 
-        // Add extra spaces to break up long words
-        $string = \preg_replace("/([^ \n]{" . $this->maxCharacters . '})(?=[^ \n])/siu', "\\1 ", $string);
+        // Add zero width space to break up long words
+        $string = \preg_replace("/([^ \n]{" . $this->maxCharacters . '})(?=[^ \n])/siu', "\\1\u{200B}", $string);
 
         // @codeCoverageIgnoreStart
         if ($string === null) {

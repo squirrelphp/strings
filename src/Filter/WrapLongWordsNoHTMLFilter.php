@@ -6,7 +6,7 @@ use Squirrel\Strings\Common\RegexExceptionTrait;
 use Squirrel\Strings\StringFilterInterface;
 
 /**
- * Forcefully wrap long words by adding spaces after a certain number of characters - ignore HTML
+ * Forcefully wrap long words by adding zero width spaces after a certain number of characters - ignore HTML
  */
 class WrapLongWordsNoHTMLFilter implements StringFilterInterface
 {
@@ -15,19 +15,19 @@ class WrapLongWordsNoHTMLFilter implements StringFilterInterface
     /**
      * @var int
      */
-    private $maxCharacters = 80;
+    private $maxCharacters = 20;
 
     /**
      * @param int $maxCharacters
      */
-    public function __construct(int $maxCharacters = 80)
+    public function __construct(int $maxCharacters = 20)
     {
         $this->maxCharacters = $maxCharacters;
     }
 
     public function filter(string $string): string
     {
-        $string = \preg_replace("/([^ \n]{" . $this->maxCharacters . '})(?=[^ \n])/siu', "\\1 ", $string);
+        $string = \preg_replace("/([^ \n]{" . $this->maxCharacters . '})(?=[^ \n])/siu', "\\1\u{200B}", $string);
 
         // @codeCoverageIgnoreStart
         if ($string === null) {

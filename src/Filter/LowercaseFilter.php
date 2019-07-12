@@ -8,6 +8,6 @@ class LowercaseFilter implements StringFilterInterface
 {
     public function filter(string $string): string
     {
-        return \mb_strtolower($string);
+        return \mb_strtolower($string, 'UTF-8');
     }
 }

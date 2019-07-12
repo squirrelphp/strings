@@ -22,6 +22,6 @@ class CamelCaseToSnakeCaseFilter implements StringFilterInterface
         }
         // @codeCoverageIgnoreEnd
 
-        return \mb_strtolower($string);
+        return \strtolower($string);
     }
 }

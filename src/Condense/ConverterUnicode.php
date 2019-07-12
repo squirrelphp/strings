@@ -108,7 +108,7 @@ class ConverterUnicode implements CondenseNumberInterface
     public function toNumber(string $string): int
     {
         // Get length of the string
-        $length = \mb_strlen($string);
+        $length = \mb_strlen($string, 'UTF-8');
 
         // More than 16 characters? This would be a HUGE number we cannot really process
         if ($length > 16) {

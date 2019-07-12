@@ -7,7 +7,7 @@ use Squirrel\Strings\StringFilterInterface;
 /**
  * Convert newlines to paragraphs and line breaks for HTML displaying
  */
-class ReplaceNewlinesWithParagraphsAndBreaksFilter implements StringFilterInterface
+class ReplaceUnixStyleNewlinesWithParagraphsAndBreaksFilter implements StringFilterInterface
 {
     public function filter(string $string): string
     {

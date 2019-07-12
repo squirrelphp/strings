@@ -26,7 +26,7 @@ class GeneratorUnicode extends GeneratorAscii
         parent::__construct($characters);
 
         // Number of possible values
-        $this->valuesNumber = \mb_strlen($characters);
+        $this->valuesNumber = \mb_strlen($characters, 'UTF-8');
 
         // All possible characters as an array
         $this->possibleValues = $this->mbStringSplit($characters);

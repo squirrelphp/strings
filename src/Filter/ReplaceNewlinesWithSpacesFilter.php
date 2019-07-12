@@ -2,7 +2,6 @@
 
 namespace Squirrel\Strings\Filter;
 
-use Squirrel\Strings\Common\RegexExceptionTrait;
 use Squirrel\Strings\StringFilterInterface;
 
 /**
@@ -10,17 +9,23 @@ use Squirrel\Strings\StringFilterInterface;
  */
 class ReplaceNewlinesWithSpacesFilter implements StringFilterInterface
 {
-    use RegexExceptionTrait;
+    /**
+     * @var NormalizeNewlinesToUnixStyleFilter
+     */
+    private $normalizeNewlinesFilter;
+
+    public function __construct()
+    {
+        $this->normalizeNewlinesFilter = new NormalizeNewlinesToUnixStyleFilter();
+    }
 
     public function filter(string $string): string
     {
-        $string = \preg_replace("/(\015\012)|(\015)|(\012)/", ' ', $string);
+        // Normalize all newlines to \n first
+        $string = $this->normalizeNewlinesFilter->filter($string);
 
-        // @codeCoverageIgnoreStart
-        if ($string === null) {
-            throw $this->generateRegexException();
-        }
-        // @codeCoverageIgnoreEnd
+        // Replace unix newlines (\n) with a space
+        $string = \str_replace("\n", ' ', $string);
 
         return $string;
     }

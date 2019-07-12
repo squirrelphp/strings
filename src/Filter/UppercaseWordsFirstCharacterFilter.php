@@ -8,6 +8,6 @@ class UppercaseWordsFirstCharacterFilter implements StringFilterInterface
 {
     public function filter(string $string): string
     {
-        return \ucwords($string);
+        return \mb_convert_case($string, MB_CASE_TITLE, 'UTF-8');
     }
 }

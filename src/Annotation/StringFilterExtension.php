@@ -39,7 +39,7 @@ class StringFilterExtension extends AbstractTypeExtension
             $form = $event->getForm();
 
             // We only want form elements with a data class and an array of values
-            if (is_array($data) && strlen($options['data_class']) > 0) {
+            if (\is_array($data) && \strlen($options['data_class']) > 0) {
                 // Property accessor like the one used by the form component
                 $propertyAccessor = PropertyAccess::createPropertyAccessor();
 

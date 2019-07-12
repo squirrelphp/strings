@@ -18,9 +18,6 @@ class EncodeBasicHTMLEntitiesFilter implements StringFilterInterface
         $string = \str_replace('<', '&lt;', $string);
         $string = \str_replace('>', '&gt;', $string);
 
-        // non-breaking space
-        $string = \str_replace("\xc2\xa0", '&nbsp;', $string);
-
         return $string;
     }
 }

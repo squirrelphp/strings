@@ -10,6 +10,7 @@ use Squirrel\Strings\Filter\LimitConsecutiveUnixNewlinesFilter;
 use Squirrel\Strings\Filter\LowercaseFilter;
 use Squirrel\Strings\Filter\NormalizeLettersToAsciiFilter;
 use Squirrel\Strings\Filter\NormalizeToAlphanumericFilter;
+use Squirrel\Strings\Filter\NormalizeToAlphanumericLowercaseFilter;
 use Squirrel\Strings\Filter\RemoveEmailsFilter;
 use Squirrel\Strings\Filter\RemoveExcessSpacesFilter;
 use Squirrel\Strings\Filter\RemoveHTMLTagsFilter;
@@ -18,11 +19,12 @@ use Squirrel\Strings\Filter\RemoveNonAsciiAndControlCharactersFilter;
 use Squirrel\Strings\Filter\RemoveNonNumericFilter;
 use Squirrel\Strings\Filter\RemoveNonUTF8CharactersFilter;
 use Squirrel\Strings\Filter\RemoveURLsFilter;
-use Squirrel\Strings\Filter\ReplaceNewlinesWithParagraphsAndBreaksFilter;
+use Squirrel\Strings\Filter\RemoveZeroWidthSpacesFilter;
 use Squirrel\Strings\Filter\ReplaceNewlinesWithSpacesFilter;
 use Squirrel\Strings\Filter\ReplaceNonAlphanumericFilter;
 use Squirrel\Strings\Filter\ReplaceTabsWithSpacesFilter;
 use Squirrel\Strings\Filter\ReplaceUnicodeWhitespacesFilter;
+use Squirrel\Strings\Filter\ReplaceUnixStyleNewlinesWithParagraphsAndBreaksFilter;
 use Squirrel\Strings\Filter\SnakeCaseToCamelCaseFilter;
 use Squirrel\Strings\Filter\StreamlineInputNoNewlinesFilter;
 use Squirrel\Strings\Filter\StreamlineInputWithNewlinesFilter;
@@ -62,7 +64,7 @@ class StringFilterTest extends \PHPUnit\Framework\TestCase
 
     public function testDecodeBasicHTMLEntities()
     {
-        $this->assertEquals("  & haha <strong>many</strong> \xc2\xa0  \xc2\xa0  grüss götter   \r\n\n\n\t  \n  \n  <invalid>\"l'etat\"\\ thing contained!!!&trade; ", (new DecodeBasicHTMLEntitiesFilter())->filter($this->testString));
+        $this->assertEquals("  & haha <strong>many</strong> \xc2\xa0  &nbsp;  grüss götter   \r\n\n\n\t  \n  \n  <invalid>\"l'etat\"\\ thing contained!!!&trade; ", (new DecodeBasicHTMLEntitiesFilter())->filter($this->testString));
     }
 
     public function testRemoveExcessSpaces()
@@ -97,22 +99,22 @@ class StringFilterTest extends \PHPUnit\Framework\TestCase
 
     public function testLowercase()
     {
-        $this->assertEquals(mb_strtolower($this->testString), (new LowercaseFilter())->filter($this->testString));
+        $this->assertEquals("  &amp; haha <strong>many</strong>    &nbsp;  grüss götter   \r\n\n\n\t  \n  \n  <invalid>\"l'etat\"\ thing contained!!!&trade; ", (new LowercaseFilter())->filter($this->testString));
     }
 
     public function testUppercase()
     {
-        $this->assertEquals(mb_strtoupper($this->testString), (new UppercaseFilter())->filter($this->testString));
+        $this->assertEquals("  &AMP; HAHA <STRONG>MANY</STRONG>    &NBSP;  GRÜSS GÖTTER   \r\n\n\n\t  \n  \n  <INVALID>\"L'ETAT\"\ THING CONTAINED!!!&TRADE; ", (new UppercaseFilter())->filter($this->testString));
     }
 
     public function testUppercaseWordsFirstCharacter()
     {
-        $this->assertEquals(ucwords($this->testString), (new UppercaseWordsFirstCharacterFilter())->filter($this->testString));
+        $this->assertEquals("  &Amp; Haha <Strong>Many</Strong>    &Nbsp;  Grüss Götter   \r\n\n\n\t  \n  \n  <Invalid>\"L'etat\"\ Thing Contained!!!&Trade; ", (new UppercaseWordsFirstCharacterFilter())->filter($this->testString));
     }
 
     public function testUppercaseFirstCharacter()
     {
-        $this->assertEquals(ucfirst($this->testString), (new UppercaseFirstCharacterFilter())->filter($this->testString));
+        $this->assertEquals("  &amp; haha <strong>many</strong>    &nbsp;  grüss götter   \r\n\n\n\t  \n  \n  <invalid>\"l'etat\"\ thing contained!!!&trade; ", (new UppercaseFirstCharacterFilter())->filter($this->testString));
     }
 
     public function testTrim()
@@ -131,18 +133,18 @@ class StringFilterTest extends \PHPUnit\Framework\TestCase
     {
         $string = '123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890';
 
-        $this->assertEquals('123456789012345678901234567890 123456789012345678901234567890 123456789012345678901234567890', (new WrapLongWordsNoHTMLFilter(30))->filter($string));
+        $this->assertEquals('123456789012345678901234567890'. "\u{200B}" . '123456789012345678901234567890' . "\u{200B}" . '123456789012345678901234567890', (new WrapLongWordsNoHTMLFilter(30))->filter($string));
 
-        $this->assertEquals('1234567890123456789012345678901234567890123456789012345678901234567890 12345678901234567890', (new WrapLongWordsNoHTMLFilter(70))->filter($string));
+        $this->assertEquals('1234567890123456789012345678901234567890123456789012345678901234567890' . "\u{200B}" . '12345678901234567890', (new WrapLongWordsNoHTMLFilter(70))->filter($string));
     }
 
     public function testWrapLongWordsWithHTML()
     {
         $string = '123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890';
 
-        $this->assertEquals('123456789012345678901234567890 123456789012345678901234567890 123456789012345678901234567890', (new WrapLongWordsWithHTMLFilter(30))->filter($string));
+        $this->assertEquals('123456789012345678901234567890' . "\u{200B}" . '123456789012345678901234567890' . "\u{200B}" . '123456789012345678901234567890', (new WrapLongWordsWithHTMLFilter(30))->filter($string));
 
-        $this->assertEquals('1234567890123456789012345678901234567890123456789012345678901234567890 12345678901234567890', (new WrapLongWordsWithHTMLFilter(70))->filter($string));
+        $this->assertEquals('1234567890123456789012345678901234567890123456789012345678901234567890' . "\u{200B}" . '12345678901234567890', (new WrapLongWordsWithHTMLFilter(70))->filter($string));
 
         $string = '<strong>1234567890123456789012345678901234567890</strong>';
 
@@ -150,11 +152,11 @@ class StringFilterTest extends \PHPUnit\Framework\TestCase
          * We separate after 29 numbers because each HTML tag counts as ONE character, so
          * HTML tag + 29 numbers = 30 characters
          */
-        $this->assertEquals('<strong>12345678901234567890123456789 01234567890</strong>', (new WrapLongWordsWithHTMLFilter(30))->filter($string));
+        $this->assertEquals('<strong>12345678901234567890123456789' . "\u{200B}" . '01234567890</strong>', (new WrapLongWordsWithHTMLFilter(30))->filter($string));
 
         $string = '<strong> 1234567890123456789012345678901234567890 </strong>';
 
-        $this->assertEquals('<strong> 123456789012345678901234567890 1234567890 </strong>', (new WrapLongWordsWithHTMLFilter(30))->filter($string));
+        $this->assertEquals('<strong> 123456789012345678901234567890' . "\u{200B}" . '1234567890 </strong>', (new WrapLongWordsWithHTMLFilter(30))->filter($string));
     }
 
     public function testRemoveNonAlphanumeric()
@@ -180,7 +182,7 @@ class StringFilterTest extends \PHPUnit\Framework\TestCase
         $string = (new ReplaceNonAlphanumericFilter())->filter($string);
         $string = (new TrimFilter('-'))->filter($string);
 
-        $this->assertEquals('haha-strong-many-strong-gruss-gotter-invalid-l-etat-thing-contained-trade', $string);
+        $this->assertEquals('haha-strong-many-strong-nbsp-gruss-gotter-invalid-l-etat-thing-contained-trade', $string);
     }
 
     public function testRemoveNonAsciiAndControlCharacters()
@@ -194,7 +196,7 @@ class StringFilterTest extends \PHPUnit\Framework\TestCase
         $string = (new DecodeBasicHTMLEntitiesFilter())->filter($string);
         $string = (new StreamlineInputWithNewlinesFilter())->filter($string);
 
-        $this->assertEquals("& haha <strong>many</strong> grüss götter\n\n<invalid>\"l'etat\"\\ thing contained!!!&trade;", $string);
+        $this->assertEquals("& haha <strong>many</strong> &nbsp; grüss götter\n\n<invalid>\"l'etat\"\\ thing contained!!!&trade;", $string);
     }
 
     public function testStreamlineInputNoNewlines()
@@ -209,7 +211,7 @@ class StringFilterTest extends \PHPUnit\Framework\TestCase
     {
         $testString = "Dearest\n\nPlease accept my apology for:\n- Making fun of you\n- Making you sad\n\nBest regards\n\nMichael";
 
-        $string = (new ReplaceNewlinesWithParagraphsAndBreaksFilter())->filter($testString);
+        $string = (new ReplaceUnixStyleNewlinesWithParagraphsAndBreaksFilter())->filter($testString);
 
         $this->assertEquals("<p>Dearest</p><p>Please accept my apology for:<br/>- Making fun of you<br/>- Making you sad</p><p>Best regards</p><p>Michael</p>", $string);
     }
@@ -218,7 +220,7 @@ class StringFilterTest extends \PHPUnit\Framework\TestCase
     {
         $string = (new EncodeBasicHTMLEntitiesFilter())->filter($this->testString);
 
-        $this->assertEquals("  &amp;amp; haha &lt;strong&gt;many&lt;/strong&gt; &nbsp;  &amp;nbsp;  grüss götter   \r\n\n\n\t  \n  \n  &lt;invalid&gt;&quot;l&apos;etat&quot;\\ thing contained!!!&amp;trade; ", $string);
+        $this->assertEquals("  &amp;amp; haha &lt;strong&gt;many&lt;/strong&gt; \xc2\xa0  &amp;nbsp;  grüss götter   \r\n\n\n\t  \n  \n  &lt;invalid&gt;&quot;l&apos;etat&quot;\\ thing contained!!!&amp;trade; ", $string);
     }
 
     public function testNormalizeLettersToAscii()
@@ -311,6 +313,54 @@ class StringFilterTest extends \PHPUnit\Framework\TestCase
         );
 
         $filter = (new NormalizeToAlphanumericFilter());
+
+        foreach ($tests as $testString => $expectedResult) {
+            $string = $filter->filter($testString);
+
+            $this->assertEquals($expectedResult, $string);
+        }
+    }
+
+    public function testNormalizeToAlphanumericLowercase()
+    {
+        $tests = array(
+            ' sœmoéhaha ööhm ûlty! ' => 'soemoehahaoohmulty',
+            ' éßen ĜħŞŽŷť ƇƚƲǊǗ! ' => 'essenghszytclvnju',
+        );
+
+        $filter = (new NormalizeToAlphanumericLowercaseFilter());
+
+        foreach ($tests as $testString => $expectedResult) {
+            $string = $filter->filter($testString);
+
+            $this->assertEquals($expectedResult, $string);
+        }
+    }
+
+    public function testRemoveZeroWidthWhitespaces()
+    {
+        $tests = array(
+            ' sœmoéha' . "\u{200B}" . 'ha öö' . "\u{2060}" . 'hm ûlty! ' => ' sœmoéhaha ööhm ûlty! ',
+            ' éßenĜħŞŽ' . "\u{FEFF}" . 'ŷťƇƚƲǊǗ! ' => ' éßenĜħŞŽŷťƇƚƲǊǗ! ',
+        );
+
+        $filter = (new RemoveZeroWidthSpacesFilter());
+
+        foreach ($tests as $testString => $expectedResult) {
+            $string = $filter->filter($testString);
+
+            $this->assertEquals($expectedResult, $string);
+        }
+    }
+
+    public function testTrimUnicode()
+    {
+        $tests = array(
+            'é ßsœmom ûlty! ' => ' ßsœmom ûlty! ',
+            'éßenĜħŞŽŷťƇéƚƲǊǗ!' => 'enĜħŞŽŷťƇéƚƲǊǗ',
+        );
+
+        $filter = (new TrimFilter('éß!'));
 
         foreach ($tests as $testString => $expectedResult) {
             $string = $filter->filter($testString);
