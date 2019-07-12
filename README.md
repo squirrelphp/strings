@@ -63,7 +63,7 @@ Zero width spaces are usually not something you want to save in a database, so t
 
 #### ReplaceNewlinesWithSpaces
 
-If you do not need any newlines in a text or they are not allowed, this filter replaces any type of newline (in unicode there are currently 8 different newline characters) with a space (to avoid the risk of combining content which is only separated by a newline). Internally this uses the `NormalizeNewlinesToUnixStyle` filter first and then replaces the unix style newlines with spaces.
+If you do not need any newlines in a text or they are not allowed, this filter replaces any type of newline (in unicode there are currently 8 different newline characters) with a space (to avoid the risk of combining content which is only separated by a newline). Internally this uses the [NormalizeNewlinesToUnixStyle](#normalizenewlinestounixstyle) filter first and then replaces the unix style newlines with spaces.
 
 #### Trim
 
@@ -89,7 +89,7 @@ Long sequences of characters without a breaking character (like a space or newli
 
 This filter adds a zero-width space after a certain amount of characters (20 by default) in which no unix newlines or regular spaces occur. So if there is ample space even long words are not broken up, but if the space is tight the long word is split up into multiple lines.
 
-This variant of the filter looks for HTML tags in the string. If there are none, it behaves like `WrapLongWordsNoHTML`, if HTML tags do occur, each one is temporarily replaced by a substitute character and only counts as one character, and will not be broken up by the filter. So words might be split up "too early" when many HTML tags occur, as HTML tags count as one character for wrapping.
+This variant of the filter looks for HTML tags in the string. If there are none, it behaves like [WrapLongWordsNoHTML](#wraplongwordsnohtml), if HTML tags do occur, each one is temporarily replaced by a substitute character and only counts as one character, and will not be broken up by the filter. So words might be split up "too early" when many HTML tags occur, as HTML tags count as one character for wrapping.
 
 ### Cases: lowercase, uppercase, camelcase, snakecase
 
@@ -139,7 +139,7 @@ Encode `&"'<>` into their HTML entities (`&amp;`, `&quot;`, `&apos;`, `&lt;`, `&
 
 #### DecodeBasicHTMLEntities
 
-Does the reverse of `EncodeBasicHTMLEntities`, sensible if you know input might contain HTML entities and you want to streamline the text and avoid something like `&amp;amp;`.
+Does the reverse of [EncodeBasicHTMLEntities](#encodebasichtmlentities), sensible if you know input might contain HTML entities and you want to streamline the text and avoid something like `&amp;amp;`.
 
 #### DecodeAllHTMLEntities
 
@@ -202,14 +202,14 @@ Reduces most letters to their base latin ASCII character (A-Z, a-z), if it is po
 
 #### NormalizeToAlphanumeric
 
-Runs `NormalizeLettersToAscii` from above and then removes any non-alphanumeric characters, so:
+Runs [NormalizeLettersToAscii](#normalizeletterstoascii) from above and then removes any non-alphanumeric characters, so:
 
 - `Léon Breitling-Strasse 13` becomes `LeonBreitlingStrasse13`
 - 'Pré Raguel Strasse de l'école' becomes 'PreRaguelStrassedelecole'
 
 #### NormalizeToAlphanumericLowercase
 
-Runs `NormalizeToAlphanumeric` from above and then converts all characters to lowercase, so:
+Runs [NormalizeToAlphanumeric](#normalizetoalphanumeric) from above and then converts all characters to lowercase, so:
 
 - `Léon Breitling-Strasse 13` becomes `leonbreitlingstrasse13`
 - 'Pré Raguel Strasse de l'école' becomes 'preraguelstrassedelecole'
@@ -234,12 +234,12 @@ You can do your own combination of filters by using the `Squirrel\Strings\String
 
 Runs the following filters:
 
-- `RemoveNonUTF8Characters`
-- `ReplaceUnicodeWhitespaces`
-- `ReplaceTabsWithSpaces`
-- `NormalizeNewlinesToUnixStyle`
-- `RemoveExcessSpaces`
-- `LimitConsecutiveUnixNewlines`
+- [RemoveNonUTF8Characters](#removenonutf8characters)
+- [ReplaceUnicodeWhitespaces](#replaceunicodewhitespaces)
+- [ReplaceTabsWithSpaces](#replacetabswithspaces)
+- [NormalizeNewlinesToUnixStyle](#normalizenewlinestounixstyle)
+- [RemoveExcessSpaces](#removeexcessspaces)
+- [LimitConsecutiveUnixNewlines](#limitconsecutiveunixnewlines)
 
 This makes sure the string is valid UTF8 and normalizes all whitespace characters and removes unnecessary whitespace characters, while leaving the content itself alone (works with or without HTML, does not convert HTML entities).
 
@@ -247,13 +247,13 @@ This makes sure the string is valid UTF8 and normalizes all whitespace character
 
 Runs the following filters:
 
-- `RemoveNonUTF8Characters`
-- `ReplaceUnicodeWhitespaces`
-- `ReplaceTabsWithSpaces`
-- `ReplaceNewlinesWithSpaces`
-- `RemoveExcessSpaces`
+- [RemoveNonUTF8Characters](#removenonutf8characters)
+- [ReplaceUnicodeWhitespaces](#replaceunicodewhitespaces)
+- [ReplaceTabsWithSpaces](#replacetabswithspaces)
+- [ReplaceNewlinesWithSpaces](#replacenewlineswithspaces)
+- [RemoveExcessSpaces](#removeexcessspaces)
 
-Basically the same as `StreamlineInputWithNewlines` but newlines are converted to spaces. This is good for common user input like names, emails addresses and any other fields where newlines make no sense.
+Basically the same as [StreamlineInputWithNewlines](#streamlineinputwithnewlines) but newlines are converted to spaces. This is good for common user input like names, emails addresses and any other fields where newlines make no sense.
 
 Generate a random string
 ------------------------
@@ -262,9 +262,9 @@ Generates random strings according to a list of possible characters which can be
 
 With the two included classes (one with unicode support, one for ASCII-only) it is easy to define a random generator with your own set of characters which should be allowed to appear in a random string. These are sensible values:
 
-- "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" for 62 possible values per character, each can be A-Z, a-z or 0-9 and these values are very safe to use in applications (no special characters, only alphanumeric)
-- "abcdefghijklmnopqrstuvwxyz0123456789" for 36 possible values per character, same as above except this is the case insensitive version, for when there should be no difference between "A" and "a" (for example)
-- "234579ACDEFGHKMNPQRSTUVWXYZ" or "234579acdefghkmnpqrstuvwxyz" for 27 read-friendly uppercase or lowercase characters: if a person has to enter a code it is good to avoid characters which are very similar and easily confusable, like 0 (number zero) and O (letter), or 8 (number eight) and B (letter)
+- `ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789` for 62 possible values per character, each can be A-Z, a-z or 0-9 and these values are very safe to use in applications (no special characters, only alphanumeric)
+- `abcdefghijklmnopqrstuvwxyz0123456789` for 36 possible values per character, same as above except this is the case insensitive version, for when there should be no difference between "A" and "a" (for example)
+- `234579ACDEFGHKMNPQRSTUVWXYZ` or `234579acdefghkmnpqrstuvwxyz` for 27 read-friendly uppercase or lowercase characters: if a person has to enter a code it is good to avoid characters which are very similar and easily confusable, like 0 (number zero) and O (letter), or 8 (number eight) and B (letter)
 
 Defining your own range of possible characters is easy, and even unicode characters can be used.
 
@@ -273,7 +273,7 @@ Condense a string into a number
 
 Convert an integer to a string with a given "character set" - this way we can encode an integer to condense it (so an integer with 8 numbers is now only a 4-character-string) and later convert it back when needed.
 
-The main use case are tokens in URLs, so less space is needed, as even large numbers become short strings if you use 36 or 62 values per character: with 62 possible characters ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789") a string which is three characters long can cover numbers up to 238'328, with five characters you can cover numbers up to 916'132'832.
+The main use case are tokens in URLs, so less space is needed, as even large numbers become short strings if you use 36 or 62 values per character: with 62 possible characters (`ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789`) a string which is three characters long can cover numbers up to 238'328, with five characters you can cover numbers up to 916'132'832.
 
 A side benefit of condensing is that it becomes less obvious an integer is used - tokens just look random and do not divulge their intent. 
 
