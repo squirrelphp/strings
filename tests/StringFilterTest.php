@@ -109,7 +109,7 @@ class StringFilterTest extends \PHPUnit\Framework\TestCase
 
     public function testUppercaseWordsFirstCharacter()
     {
-        $this->assertEquals("  &Amp; Haha <Strong>Many</Strong>    &Nbsp;  Grüss Götter   \r\n\n\n\t  \n  \n  <Invalid>\"L'etat\"\ Thing Contained!!!&Trade; ", (new UppercaseWordsFirstCharacterFilter())->filter($this->testString));
+        $this->assertEquals("  &Amp; Haha <Strong>Many</Strong>    &Nbsp;  Grüss Götter   \r\n\n\n\t  \n  \n  <Invalid>\"L'Etat\"\ Thing Contained!!!&Trade; ", (new UppercaseWordsFirstCharacterFilter())->filter($this->testString));
     }
 
     public function testUppercaseFirstCharacter()
