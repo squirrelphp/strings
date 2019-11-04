@@ -55,7 +55,7 @@ class StringFilterExtension extends AbstractTypeExtension
                     if ($form->has($key)) {
                         $propertyPath = $form->get($key)->getPropertyPath();
 
-                        if (isset($propertyPath)) {
+                        if (isset($propertyPath) && $propertyAccessor->isWritable($model, $propertyPath)) {
                             $propertyAccessor->setValue($model, $propertyPath, $value);
                         }
                     }
@@ -69,7 +69,7 @@ class StringFilterExtension extends AbstractTypeExtension
                     if ($form->has($key)) {
                         $propertyPath = $form->get($key)->getPropertyPath();
 
-                        if (isset($propertyPath)) {
+                        if (isset($propertyPath) && $propertyAccessor->isReadable($model, $propertyPath)) {
                             $data[$key] = $propertyAccessor->getValue($model, $propertyPath);
                         }
                     }
