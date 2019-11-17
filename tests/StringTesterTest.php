@@ -1,0 +1,48 @@
+<?php
+
+namespace Squirrel\Strings\Tests;
+
+use Squirrel\Strings\Tester\ValidDateTimeTester;
+use Squirrel\Strings\Tester\ValidUTF8Tester;
+
+class StringTesterTest extends \PHPUnit\Framework\TestCase
+{
+    public function testValidDateTime()
+    {
+        $format = 'Y-m-d';
+
+        $tester = new ValidDateTimeTester('Y-m-d');
+
+        $testCases = [
+            '2017-01-01' => true,
+            '2017/01/01' => false,
+            '2017-02-30' => false,
+            'illegal' => false,
+            '' => false,
+            0 => false,
+            '2016-02-29' => true,
+            '2015-02-29' => false,
+        ];
+
+        foreach ($testCases as $string => $result) {
+            $this->assertEquals($result, $tester->test($string));
+        }
+    }
+
+    public function testValidUTF8()
+    {
+        $tester = new ValidUTF8Tester();
+
+        $testCases = [
+            'höflich' => true,
+            '9879837423' => true,
+            '' => true,
+            \utf8_decode('hören') => false,
+            \utf8_decode('hallo') => true,
+        ];
+
+        foreach ($testCases as $string => $result) {
+            $this->assertEquals($result, $tester->test($string));
+        }
+    }
+}
