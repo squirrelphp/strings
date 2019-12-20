@@ -83,17 +83,16 @@ class ConverterUnicode implements CondenseNumberInterface
          * - repeat
          */
         for (; $number >= $this->characterCount; $number -= $number % $this->characterCount, $number /= $this->characterCount) {
-            $intValues[] = $number % $this->characterCount;
+            $intValues[] = \intval(\round($number)) % $this->characterCount;
         }
 
         // Get last modulus - we stopped in the loop above when $number was below 36
-        $intValues[] = $number;
+        $intValues[] = \intval(\round($number));
 
         // String to return as valid base36 "number"
         $numberString = '';
 
         // Go through the collected modulus values and convert them to characters
-        /** @var int[] $intValues */
         foreach ($intValues as $val) {
             $numberString .= $this->numberToString[$val];
         }
