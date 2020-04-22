@@ -10,16 +10,17 @@ php:
 
 before_script:
     - composer self-update
-    - composer install --prefer-source --no-interaction --dev
+    - composer install --prefer-source --no-interaction
+    - composer bin all install
     - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
     - chmod +x ./cc-test-reporter
     - ./cc-test-reporter before-build
 
 script:
-    - vendor/bin/phpunit --coverage-text --coverage-clover build/logs/clover.xml
-    - vendor/bin/phpstan analyse src --level=7
-    - vendor/bin/psalm --show-info=false
-    - vendor/bin/phpcs --standard=ruleset.xml --extensions=php src tests
+    - composer phpunit_clover
+    - composer phpstan
+    - composer psalm
+    - composer phpcs
     - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then ./cc-test-reporter after-build  -t clover --exit-code $TRAVIS_TEST_RESULT; fi
 
 notifications:

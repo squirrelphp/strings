@@ -79,7 +79,8 @@ class StringFilterProcessor
      */
     private function filterScalarOrArray($propertyValue, $stringFilters)
     {
-        if ((!\is_array($propertyValue) && !\is_scalar($propertyValue))
+        if (
+            (!\is_array($propertyValue) && !\is_scalar($propertyValue))
             || \is_bool($propertyValue)
         ) {
             throw $this->generateInvalidValueException('String filter annotation values can only be a non-boolean scalar or an array');

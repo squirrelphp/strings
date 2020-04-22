@@ -47,7 +47,7 @@ class StringFilterExtension extends AbstractTypeExtension
                 if (isset($options['empty_data']) && $options['empty_data'] instanceof $options['data_class']) {
                     $model = clone $options['empty_data'];
                 } else {
-                    $model = new $options['data_class'];
+                    $model = (new $options['data_class']());
                 }
 
                 // Assign values to the model as the form would do it
