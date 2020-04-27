@@ -1,7 +1,7 @@
 Squirrel Strings
 ================
 
-[![Build Status](https://img.shields.io/travis/com/squirrelphp/strings.svg)](https://travis-ci.com/squirrelphp/strings) [![Test Coverage](https://api.codeclimate.com/v1/badges/780aeeff88d9a49b2d2a/test_coverage)](https://codeclimate.com/github/squirrelphp/strings/test_coverage) ![PHPStan](https://img.shields.io/badge/style-level%207-success.svg?style=flat-round&label=phpstan) [![Packagist Version](https://img.shields.io/packagist/v/squirrelphp/strings.svg?style=flat-round)](https://packagist.org/packages/squirrelphp/strings)  [![PHP Version](https://img.shields.io/packagist/php-v/squirrelphp/strings.svg)](https://packagist.org/packages/squirrelphp/strings) [![Software License](https://img.shields.io/badge/license-MIT-success.svg?style=flat-round)](LICENSE)
+[![Build Status](https://img.shields.io/travis/com/squirrelphp/strings.svg)](https://travis-ci.com/squirrelphp/strings) [![Test Coverage](https://api.codeclimate.com/v1/badges/780aeeff88d9a49b2d2a/test_coverage)](https://codeclimate.com/github/squirrelphp/strings/test_coverage) ![PHPStan](https://img.shields.io/badge/style-level%208-success.svg?style=flat-round&label=phpstan) [![Packagist Version](https://img.shields.io/packagist/v/squirrelphp/strings.svg?style=flat-round)](https://packagist.org/packages/squirrelphp/strings)  [![PHP Version](https://img.shields.io/packagist/php-v/squirrelphp/strings.svg)](https://packagist.org/packages/squirrelphp/strings) [![Software License](https://img.shields.io/badge/license-MIT-success.svg?style=flat-round)](LICENSE)
 
 Handles common string operations in PHP applications:
 
@@ -22,7 +22,7 @@ public function filter(string $string): string;
 Each filter does exactly one thing (ideally) so they can be combined depending on how an input needs to be changed / processed.
 
 Additional filters can easily be defined by implementing `Squirrel\Strings\StringFilterInterface`. Possible ideas for custom filters in applications:
- 
+
 - Process HTML tags, usually highly application dependent (which tags are allowed in which context)
 - Streamline user input and combine multiple filters into one filter
 - Convert HTML to Markdown, or the other way around
@@ -39,7 +39,7 @@ Replaces all types of newlines (in unicode there are currently 8 different newli
 
 #### ReplaceUnicodeWhitespaces
 
-Replaces all unicode whitespace characters (currently 16 different ones) with a regular space if you do not care about the minute differences between the spaces (like width, or non-breaking, or mathematical). For most input this makes sense in order to be able to trim and limit unnecessary spaces. 
+Replaces all unicode whitespace characters (currently 16 different ones) with a regular space if you do not care about the minute differences between the spaces (like width, or non-breaking, or mathematical). For most input this makes sense in order to be able to trim and limit unnecessary spaces.
 
 #### RemoveExcessSpaces
 
@@ -275,7 +275,7 @@ Convert an integer to a string with a given "character set" - this way we can en
 
 The main use case are tokens in URLs, so less space is needed, as even large numbers become short strings if you use 36 or 62 values per character: with 62 possible characters (`ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789`) a string which is three characters long can cover numbers up to 238'328, with five characters you can cover numbers up to 916'132'832.
 
-A side benefit of condensing is that it becomes less obvious an integer is used - tokens just look random and do not divulge their intent. 
+A side benefit of condensing is that it becomes less obvious an integer is used - tokens just look random and do not divulge their intent.
 
 Defining your own range of possible characters is easy, and even unicode characters can be used.
 

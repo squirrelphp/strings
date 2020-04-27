@@ -14,10 +14,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
  */
 class StringFilterExtension extends AbstractTypeExtension
 {
-    /**
-     * @var StringFilterProcessor
-     */
-    private $stringFiltersProcessor;
+    private StringFilterProcessor $stringFiltersProcessor;
 
     public function __construct(StringFilterProcessor $stringFiltersProcessor)
     {

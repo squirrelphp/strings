@@ -15,7 +15,7 @@ class ReplaceNonAlphanumericFilter implements StringFilterInterface
     /**
      * @var string The character used to replace any non-alphanumeric characters
      */
-    private $replacementCharacter;
+    private string $replacementCharacter;
 
     public function __construct(string $replacementCharacter = '-')
     {

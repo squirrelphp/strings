@@ -10,7 +10,7 @@ class StringTesterRunner implements StringTesterInterface
     /**
      * @var StringTesterInterface[]
      */
-    private $stringTesters = [];
+    private array $stringTesters = [];
 
     public function __construct(StringTesterInterface ...$stringTesters)
     {

@@ -10,19 +10,13 @@ class StringFilterRunner implements StringFilterInterface
     /**
      * @var StringFilterInterface[]
      */
-    private $stringFilters = [];
+    private array $stringFilters = [];
 
-    /**
-     * @param StringFilterInterface ...$stringFilters
-     */
     public function __construct(StringFilterInterface ...$stringFilters)
     {
         $this->stringFilters = $stringFilters;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function filter(string $string): string
     {
         // Go through all our filters, use them

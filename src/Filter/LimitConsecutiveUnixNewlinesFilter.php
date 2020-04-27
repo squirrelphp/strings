@@ -15,7 +15,7 @@ class LimitConsecutiveUnixNewlinesFilter implements StringFilterInterface
     /**
      * @var int Maximum number of consecutive newlines
      */
-    private $maxConsecutiveNewlines;
+    private int $maxConsecutiveNewlines;
 
     public function __construct(int $maxConsecutiveNewlines = 2)
     {

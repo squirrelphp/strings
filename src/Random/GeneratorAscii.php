@@ -21,16 +21,13 @@ class GeneratorAscii implements RandomStringGeneratorInterface
     /**
      * @var int Number of possible values
      */
-    protected $valuesNumber = 0;
+    protected int $valuesNumber = 0;
 
     /**
      * @var array Possible values for random strings as an array
      */
-    protected $possibleValues = [];
+    protected array $possibleValues = [];
 
-    /**
-     * @param string $characters
-     */
     public function __construct(string $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')
     {
         // Number of possible values

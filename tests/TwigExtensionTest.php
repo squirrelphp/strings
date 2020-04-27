@@ -50,11 +50,6 @@ class TwigExtensionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0, \preg_match('/[^18]/', ($this->stringExtension->getFunctions()[1]->getCallable())('eighteen', 900)));
     }
 
-    public function testName()
-    {
-        $this->assertEquals('squirrel_strings_extension', $this->stringExtension->getName());
-    }
-
     public function testInvalidFilters()
     {
         $this->expectException(InvalidValueException::class);

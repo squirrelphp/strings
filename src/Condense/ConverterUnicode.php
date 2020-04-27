@@ -20,28 +20,23 @@ class ConverterUnicode implements CondenseNumberInterface
 
     /**
      * How many characters are in our conversion arsenal
-     *
-     * @var int
      */
-    private $characterCount = 0;
+    private int $characterCount = 0;
 
     /**
      * Converter: number as key, string as value
      *
      * @var array<int, string>
      */
-    private $numberToString = [];
+    private array $numberToString = [];
 
     /**
      * Converter: string as key, number as value
      *
      * @var array<string, int>
      */
-    private $stringToNumber = [];
+    private array $stringToNumber = [];
 
-    /**
-     * @param string $characters
-     */
     public function __construct(string $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')
     {
         // Characters have to be defined
@@ -64,9 +59,6 @@ class ConverterUnicode implements CondenseNumberInterface
         $this->characterCount = \count($this->numberToString);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function toString(int $number): string
     {
         /**
@@ -101,9 +93,6 @@ class ConverterUnicode implements CondenseNumberInterface
         return $numberString;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function toNumber(string $string): int
     {
         // Get length of the string

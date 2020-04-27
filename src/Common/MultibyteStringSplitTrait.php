@@ -11,11 +11,8 @@ trait MultibyteStringSplitTrait
 
     /**
      * Unicode version of str_split, from http://php.net/manual/en/function.str-split.php comments
-     *
-     * @param string $string
-     * @return array
      */
-    protected function mbStringSplit($string)
+    protected function mbStringSplit(string $string): array
     {
         $string = \preg_split("//u", $string, -1, PREG_SPLIT_NO_EMPTY);
 

@@ -26,7 +26,7 @@ class NormalizeLettersToAsciiFilter implements StringFilterInterface
     /**
      * @var array All these characters need to be specifically converted by this class, key is decimal unicode codepoint
      */
-    private $codepointConversions = [
+    private array $codepointConversions = [
         198 => 'AE', // Æ
         216 => 'O', // Ø
         223 => 'ss', // ß

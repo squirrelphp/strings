@@ -16,7 +16,7 @@ class RandomStringGeneratorSelector implements RandomStringGeneratorSelectInterf
      *
      * @var array<string, RandomStringGeneratorInterface>
      */
-    private $generators = array();
+    private array $generators = array();
 
     /**
      * @param array<string, RandomStringGeneratorInterface> $generators
@@ -28,9 +28,6 @@ class RandomStringGeneratorSelector implements RandomStringGeneratorSelectInterf
 
     /**
      * Get a specific random generator
-     *
-     * @param string $name
-     * @return RandomStringGeneratorInterface
      */
     public function getGenerator(string $name): RandomStringGeneratorInterface
     {

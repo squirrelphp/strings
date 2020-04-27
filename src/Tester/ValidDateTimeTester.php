@@ -9,7 +9,7 @@ class ValidDateTimeTester implements StringTesterInterface
     /**
      * @var string The date time format to test strings against
      */
-    private $format;
+    private string $format;
 
     public function __construct(string $format = 'Y-m-d')
     {

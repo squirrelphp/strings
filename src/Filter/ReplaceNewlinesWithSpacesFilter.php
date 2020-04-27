@@ -9,10 +9,7 @@ use Squirrel\Strings\StringFilterInterface;
  */
 class ReplaceNewlinesWithSpacesFilter implements StringFilterInterface
 {
-    /**
-     * @var NormalizeNewlinesToUnixStyleFilter
-     */
-    private $normalizeNewlinesFilter;
+    private NormalizeNewlinesToUnixStyleFilter $normalizeNewlinesFilter;
 
     public function __construct()
     {

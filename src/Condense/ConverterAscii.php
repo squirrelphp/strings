@@ -11,14 +11,7 @@ namespace Squirrel\Strings\Condense;
  */
 class ConverterAscii extends ConverterUnicode
 {
-    /**
-     * Use PHP str_split for ascii
-     *
-     * @param string $string
-     * @param int $split_length
-     * @return array
-     */
-    protected function mbStringSplit($string, $split_length = 1)
+    protected function mbStringSplit(string $string, int $split_length = 1): array
     {
         return \str_split($string);
     }

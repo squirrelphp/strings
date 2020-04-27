@@ -12,14 +12,8 @@ class WrapLongWordsWithHTMLFilter implements StringFilterInterface
 {
     use RegexExceptionTrait;
 
-    /**
-     * @var int
-     */
-    private $maxCharacters = 20;
+    private int $maxCharacters = 20;
 
-    /**
-     * @param int $maxCharacters
-     */
     public function __construct(int $maxCharacters = 20)
     {
         $this->maxCharacters = $maxCharacters;
@@ -38,9 +32,6 @@ class WrapLongWordsWithHTMLFilter implements StringFilterInterface
 
     /**
      * Wrap long words when there is no HTML tags in the string
-     *
-     * @param string $string
-     * @return string
      */
     private function wrapNonHTML(string $string): string
     {
@@ -57,10 +48,6 @@ class WrapLongWordsWithHTMLFilter implements StringFilterInterface
 
     /**
      * Wrap long words and count HTML elements as only one character each
-     *
-     * @param string $string
-     * @param array $tags
-     * @return string
      */
     private function wrapHTML(string $string, array $tags): string
     {

@@ -13,15 +13,8 @@ class StringFilterProcessor
 {
     use InvalidValueExceptionTrait;
 
-    /**
-     * @var Reader Annotation reader from doctrine
-     */
-    private $annotationReader;
-
-    /**
-     * @var StringFilterSelectInterface
-     */
-    private $stringFilterSelector;
+    private Reader $annotationReader;
+    private StringFilterSelectInterface $stringFilterSelector;
 
     public function __construct(Reader $annotationReader, StringFilterSelectInterface $stringFilterSelector)
     {
@@ -31,8 +24,6 @@ class StringFilterProcessor
 
     /**
      * Processes a class according to its StringFilter annotations
-     *
-     * @param object $class
      */
     public function process(object $class): void
     {
@@ -103,10 +94,8 @@ class StringFilterProcessor
 
     /**
      * @param mixed $stringFilter
-     * @param string $string
-     * @return string
      */
-    private function filterValue($stringFilter, string $string)
+    private function filterValue($stringFilter, string $string): string
     {
         // StringFilters just has one filter as a string - call it
         if (\is_string($stringFilter)) {

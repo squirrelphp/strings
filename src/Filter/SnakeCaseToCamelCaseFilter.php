@@ -11,6 +11,17 @@ class SnakeCaseToCamelCaseFilter implements StringFilterInterface
 {
     public function filter(string $string): string
     {
-        return \lcfirst(\str_replace('_', '', \ucwords(\strtolower($string), '_')));
+        return \lcfirst(
+            \str_replace(
+                '_',
+                '',
+                \ucwords(
+                    \strtolower(
+                        $string
+                    ),
+                    '_'
+                )
+            )
+        );
     }
 }

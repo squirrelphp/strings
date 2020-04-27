@@ -18,9 +18,6 @@ class GeneratorUnicode extends GeneratorAscii
     use MultibyteStringSplitTrait;
     use InvalidValueExceptionTrait;
 
-    /**
-     * @param string $characters
-     */
     public function __construct(string $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')
     {
         parent::__construct($characters);

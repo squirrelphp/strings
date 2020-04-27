@@ -16,7 +16,7 @@ class StringFilterSelector implements StringFilterSelectInterface
      *
      * @var array<string, StringFilterInterface>
      */
-    private $filters = [];
+    private array $filters = [];
 
     /**
      * @param array<string, StringFilterInterface> $filters
@@ -28,9 +28,6 @@ class StringFilterSelector implements StringFilterSelectInterface
 
     /**
      * Get a specific filter
-     *
-     * @param string $name
-     * @return StringFilterInterface
      */
     public function getFilter(string $name): StringFilterInterface
     {

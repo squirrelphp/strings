@@ -9,22 +9,16 @@ class Url
 {
     /**
      * URL parts from parse_url
-     *
-     * @var array
      */
-    private $urlParts = [];
+    private array $urlParts = [];
 
     /**
      * Query string from the URL as array
-     *
-     * @var array
      */
-    private $queryStringArray = [];
+    private array $queryStringArray = [];
 
     /**
      * Initialize new URL
-     *
-     * @param string $url
      */
     public function __construct(string $url)
     {
@@ -47,7 +41,6 @@ class Url
     /**
      * Add name and value pair to query string
      *
-     * @param string $name
      * @param mixed $value
      */
     public function add(string $name, $value): void
@@ -57,8 +50,6 @@ class Url
 
     /**
      * Remove name and value pair from query string
-     *
-     * @param string $name
      */
     public function remove(string $name): void
     {
@@ -69,9 +60,6 @@ class Url
 
     /**
      * Checks if a query string part was defined
-     *
-     * @param string $name
-     * @return bool
      */
     public function has(string $name): bool
     {
@@ -85,7 +73,6 @@ class Url
     /**
      * Get the value of a query string part
      *
-     * @param string $name
      * @return mixed
      */
     public function get(string $name)
@@ -123,8 +110,6 @@ class Url
 
     /**
      * Get the query of the URL, like key1=value1&key2=value2
-     *
-     * @return string
      */
     public function getQueryString(): string
     {
@@ -136,8 +121,6 @@ class Url
 
     /**
      * Set scheme of the URL
-     *
-     * @param string $scheme
      */
     public function setScheme(string $scheme): void
     {
@@ -150,8 +133,6 @@ class Url
 
     /**
      * Set host of the URL, like www.example.com or en.nonsense.se
-     *
-     * @param string $host
      */
     public function setHost(string $host): void
     {
@@ -160,8 +141,6 @@ class Url
 
     /**
      * Set the path of the URL, like /product/details/67395
-     *
-     * @param string $path
      */
     public function setPath(string $path): void
     {
@@ -170,8 +149,6 @@ class Url
 
     /**
      * Set the query of the URL, like key1=value1&key2=value2
-     *
-     * @param string $query
      */
     public function setQueryString(string $query): void
     {
@@ -187,8 +164,6 @@ class Url
 
     /**
      * Get URL with all parts included
-     *
-     * @return string
      */
     public function getAbsoluteUrl(): string
     {
@@ -197,8 +172,6 @@ class Url
 
     /**
      * Get relative URL, so no scheme or host included
-     *
-     * @return string
      */
     public function getRelativeUrl(): string
     {
@@ -219,10 +192,8 @@ class Url
 
     /**
      * Generate URL from given URL data
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         // Prepare query string
         $this->prepareQueryString();

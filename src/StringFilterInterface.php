@@ -9,9 +9,6 @@ interface StringFilterInterface
 {
     /**
      * Filter the string and return the filtered string
-     *
-     * @param string $string
-     * @return string
      */
     public function filter(string $string): string;
 }

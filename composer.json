@@ -18,7 +18,7 @@
         }
     ],
     "require": {
-        "php": "^7.2",
+        "php": "^7.4",
         "ext-mbstring": "*",
         "squirrelphp/debug": "^0.5"
     },
@@ -49,16 +49,16 @@
     },
     "scripts": {
         "phpstan": "vendor/bin/phpstan analyse",
-        "phpstan_base": "vendor/bin/phpstan analyse --configuration phpstan_base.neon --error-format baselineNeon > phpstan-baseline.neon",
+        "phpstan_base": "vendor/bin/phpstan analyse --generate-baseline",
         "phpstan_clear": "vendor/bin/phpstan clear-result-cache",
         "psalm": "vendor/bin/psalm --show-info=false --diff",
         "psalm_full": "vendor/bin/psalm --show-info=false",
         "psalm_base": "vendor/bin/psalm --set-baseline=psalm-baseline.xml",
         "phpunit": "vendor/bin/phpunit --colors=always",
         "phpunit_clover": "vendor/bin/phpunit --coverage-text --coverage-clover build/logs/clover.xml",
-        "phpcs": "vendor/bin/phpcs --standard=ruleset.xml --extensions=php --cache src tests",
-        "phpcsfix": "vendor/bin/phpcbf --standard=ruleset.xml --extensions=php --cache src tests",
         "codecoverage": "vendor/bin/phpunit --coverage-html tests/_reports",
+        "phpcs": "vendor/bin/phpcs --standard=ruleset.xml --extensions=php --cache=.phpcs-cache --colors src tests",
+        "phpcsfix": "vendor/bin/phpcbf --standard=ruleset.xml --extensions=php --cache=.phpcs-cache src tests",
         "binupdate": "@composer bin all update --ansi",
         "bininstall": "@composer bin all install --ansi"
     }

@@ -12,14 +12,8 @@ class WrapLongWordsNoHTMLFilter implements StringFilterInterface
 {
     use RegexExceptionTrait;
 
-    /**
-     * @var int
-     */
-    private $maxCharacters = 20;
+    private int $maxCharacters = 20;
 
-    /**
-     * @param int $maxCharacters
-     */
     public function __construct(int $maxCharacters = 20)
     {
         $this->maxCharacters = $maxCharacters;

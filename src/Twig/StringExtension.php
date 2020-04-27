@@ -16,15 +16,8 @@ class StringExtension extends AbstractExtension
 {
     use InvalidValueExceptionTrait;
 
-    /**
-     * @var StringFilterSelectInterface
-     */
-    private $stringFilterSelector;
-
-    /**
-     * @var RandomStringGeneratorSelectInterface
-     */
-    private $randomStringGeneratorSelector;
+    private StringFilterSelectInterface $stringFilterSelector;
+    private RandomStringGeneratorSelectInterface $randomStringGeneratorSelector;
 
     public function __construct(
         StringFilterSelectInterface $stringFilterSelector,
@@ -61,17 +54,10 @@ class StringExtension extends AbstractExtension
         ];
     }
 
-    public function getName(): string
-    {
-        return 'squirrel_strings_extension';
-    }
-
     /**
-     * @param string $string
      * @param mixed $filters
-     * @return string
      */
-    private function stringFilter(string $string, $filters)
+    private function stringFilter(string $string, $filters): string
     {
         if (\is_array($filters)) {
             foreach ($filters as $filter) {

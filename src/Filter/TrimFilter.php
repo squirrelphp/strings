@@ -12,12 +12,12 @@ class TrimFilter implements StringFilterInterface
     /**
      * @var string The characters which should be trimmed from the beginning and end of the string
      */
-    private $trimCharacters;
+    private string $trimCharacters;
 
     /**
      * @var string Default is to trim ascii characters
      */
-    private $trimFunction = 'trimAscii';
+    private string $trimFunction = 'trimAscii';
 
     public function __construct(string $trimCharacters = " \t\n\r\0\x0B")
     {
