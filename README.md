@@ -123,6 +123,10 @@ Convert from snake_case to CamelCase. Only supports alphanumeric characters (A-Z
 
 Removes all HTML tags. If HTML tags are malformed this might remove more than expected, as it does not try to validate the HTML, it just removes anything that looks like a HTML tag.
 
+#### RemoveHTMLTagCharacters
+
+Removes the three main characters used in HTML tags: < , > and "
+
 #### ReplaceUnixStyleNewlinesWithParagraphs
 
 For HTML you often want to process newlines in a predictable way, this filter is one possibility:

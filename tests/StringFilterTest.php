@@ -13,6 +13,7 @@ use Squirrel\Strings\Filter\NormalizeToAlphanumericFilter;
 use Squirrel\Strings\Filter\NormalizeToAlphanumericLowercaseFilter;
 use Squirrel\Strings\Filter\RemoveEmailsFilter;
 use Squirrel\Strings\Filter\RemoveExcessSpacesFilter;
+use Squirrel\Strings\Filter\RemoveHTMLTagCharacters;
 use Squirrel\Strings\Filter\RemoveHTMLTagsFilter;
 use Squirrel\Strings\Filter\RemoveNonAlphanumericFilter;
 use Squirrel\Strings\Filter\RemoveNonAsciiAndControlCharactersFilter;
@@ -367,5 +368,10 @@ class StringFilterTest extends \PHPUnit\Framework\TestCase
 
             $this->assertEquals($expectedResult, $string);
         }
+    }
+
+    public function testRemoveHTMLCharacters()
+    {
+        $this->assertEquals("  &amp; haha strongmany/strong \xc2\xa0  &nbsp;  grüss götter   \r\n\n\n\t  \n  \n  invalidl'etat\\ thing contained!!!&trade; ", (new RemoveHTMLTagCharacters())->filter($this->testString));
     }
 }
