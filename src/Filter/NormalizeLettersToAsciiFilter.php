@@ -138,7 +138,6 @@ class NormalizeLettersToAsciiFilter implements StringFilterInterface
     {
         // Maps special characters (with diacritics) to their base character followed by the diacritical mark
         // Examples: Ú => U´,  á => a`
-        /** @phpstan-ignore-next-line */
         $string = \Normalizer::normalize($string, \Normalizer::FORM_D);
 
         // Remove diacritics
