@@ -52,7 +52,7 @@
         "phpstan": "vendor/bin/phpstan analyse",
         "phpstan_base": "vendor/bin/phpstan analyse --generate-baseline",
         "phpstan_clear": "vendor/bin/phpstan clear-result-cache",
-        "psalm": "vendor/bin/psalm --show-info=false --diff",
+        "psalm": "vendor/bin/psalm --show-info=false",
         "psalm_full": "vendor/bin/psalm --show-info=false",
         "psalm_base": "vendor/bin/psalm --set-baseline=psalm-baseline.xml",
         "phpunit": "vendor/bin/phpunit --colors=always",

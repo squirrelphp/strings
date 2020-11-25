@@ -7,7 +7,6 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
  * Apply StringFilter annotations and filter submitted data accordingly
@@ -37,9 +36,6 @@ class StringFilterExtension extends AbstractTypeExtension
 
             // We only want form elements with a data class and an array of values
             if (\is_array($data) && \strlen($options['data_class']) > 0) {
-                // Property accessor like the one used by the form component
-                $propertyAccessor = PropertyAccess::createPropertyAccessor();
-
                 // Create instance of the form data object, either from empty_data or by instantiating it
                 if (isset($options['empty_data']) && $options['empty_data'] instanceof $options['data_class']) {
                     $model = clone $options['empty_data'];
@@ -47,13 +43,46 @@ class StringFilterExtension extends AbstractTypeExtension
                     $model = (new $options['data_class']());
                 }
 
-                // Assign values to the model as the form would do it
+                // Assign values to the model only for direct properties
                 foreach ($data as $key => $value) {
-                    if ($form->has($key)) {
-                        $propertyPath = $form->get($key)->getPropertyPath();
+                    if (\property_exists($model, $key)) {
+                        $reflectionProperty = new \ReflectionProperty($model, $key);
+                        $reflectionPropertyType = $reflectionProperty->getType();
 
-                        if (isset($propertyPath) && $propertyAccessor->isWritable($model, $propertyPath)) {
-                            $propertyAccessor->setValue($model, $propertyPath, $value);
+                        // @codeCoverageIgnoreStart
+                        if (
+                            PHP_VERSION_ID >= 80000
+                            && $reflectionPropertyType instanceof \ReflectionUnionType
+                        ) {
+                            $reflectionTypes = $reflectionPropertyType->getTypes();
+                        } else {
+                            $reflectionTypes = [$reflectionPropertyType];
+                        }
+                        // @codeCoverageIgnoreEnd
+
+                        $hasSupportedType = false;
+
+                        if (!$reflectionProperty->hasType()) {
+                            $hasSupportedType = true;
+                        }
+
+                        foreach ($reflectionTypes as $reflectionType) {
+                            if (!($reflectionType instanceof \ReflectionNamedType)) {
+                                continue;
+                            }
+
+                            if (
+                                $reflectionType->getName() === 'string'
+                                || $reflectionType->getName() === 'array'
+                            ) {
+                                $hasSupportedType = true;
+                                break;
+                            }
+                        }
+
+                        if ($hasSupportedType === true) {
+                            $reflectionProperty->setAccessible(true);
+                            $reflectionProperty->setValue($model, $value);
                         }
                     }
                 }
@@ -63,11 +92,44 @@ class StringFilterExtension extends AbstractTypeExtension
 
                 // Copy back the processed data to the array
                 foreach ($data as $key => $value) {
-                    if ($form->has($key)) {
-                        $propertyPath = $form->get($key)->getPropertyPath();
+                    if (\property_exists($model, $key)) {
+                        $reflectionProperty = new \ReflectionProperty($model, $key);
+                        $reflectionPropertyType = $reflectionProperty->getType();
 
-                        if (isset($propertyPath) && $propertyAccessor->isReadable($model, $propertyPath)) {
-                            $data[$key] = $propertyAccessor->getValue($model, $propertyPath);
+                        // @codeCoverageIgnoreStart
+                        if (
+                            PHP_VERSION_ID >= 80000
+                            && $reflectionPropertyType instanceof \ReflectionUnionType
+                        ) {
+                            $reflectionTypes = $reflectionPropertyType->getTypes();
+                        } else {
+                            $reflectionTypes = [$reflectionPropertyType];
+                        }
+                        // @codeCoverageIgnoreEnd
+
+                        $hasSupportedType = false;
+
+                        if (!$reflectionProperty->hasType()) {
+                            $hasSupportedType = true;
+                        }
+
+                        foreach ($reflectionTypes as $reflectionType) {
+                            if (!($reflectionType instanceof \ReflectionNamedType)) {
+                                continue;
+                            }
+
+                            if (
+                                $reflectionType->getName() === 'string'
+                                || $reflectionType->getName() === 'array'
+                            ) {
+                                $hasSupportedType = true;
+                                break;
+                            }
+                        }
+
+                        if ($hasSupportedType === true) {
+                            $reflectionProperty->setAccessible(true);
+                            $data[$key] = $reflectionProperty->getValue($model);
                         }
                     }
                 }

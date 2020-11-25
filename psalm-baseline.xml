@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="3.11.2@d470903722cfcbc1cd04744c5491d3e6d13ec3d9">
+<files psalm-version="3.18.2@19aa905f7c3c7350569999a93c40ae91ae4e1626">
   <file src="src/Annotation/StringFilterExtension.php">
-    <PossiblyInvalidArgument occurrences="1">
-      <code>$model</code>
-    </PossiblyInvalidArgument>
+    <TypeDoesNotContainType occurrences="2"/>
+    <UndefinedClass occurrences="4">
+      <code>$reflectionPropertyType</code>
+      <code>$reflectionPropertyType</code>
+      <code>\ReflectionUnionType</code>
+      <code>\ReflectionUnionType</code>
+    </UndefinedClass>
   </file>
 </files>
