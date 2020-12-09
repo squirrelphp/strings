@@ -17,11 +17,11 @@ class SnakeCaseToCamelCaseFilter implements StringFilterInterface
                 '',
                 \ucwords(
                     \strtolower(
-                        $string
+                        $string,
                     ),
-                    '_'
-                )
-            )
+                    '_',
+                ),
+            ),
         );
     }
 }

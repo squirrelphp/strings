@@ -21,7 +21,7 @@ class NormalizeToAlphanumericFilter implements StringFilterInterface
     {
         $this->filterRunner = new StringFilterRunner(
             new NormalizeLettersToAsciiFilter(),
-            new RemoveNonAlphanumericFilter()
+            new RemoveNonAlphanumericFilter(),
         );
     }
 

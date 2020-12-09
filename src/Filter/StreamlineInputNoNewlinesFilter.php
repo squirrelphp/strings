@@ -19,7 +19,7 @@ class StreamlineInputNoNewlinesFilter implements StringFilterInterface
             new ReplaceUnicodeWhitespacesFilter(),
             new ReplaceTabsWithSpacesFilter(),
             new ReplaceNewlinesWithSpacesFilter(),
-            new RemoveExcessSpacesFilter()
+            new RemoveExcessSpacesFilter(),
         );
     }
 

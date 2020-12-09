@@ -12,7 +12,7 @@ class StringTesterRunnerTest extends \PHPUnit\Framework\TestCase
     {
         $runner = new StringTesterRunner(
             new ReturnsFalseTester(),
-            new ReturnsTrueTester()
+            new ReturnsTrueTester(),
         );
 
         $this->assertEquals(false, $runner->test('somestring'));
@@ -21,7 +21,7 @@ class StringTesterRunnerTest extends \PHPUnit\Framework\TestCase
             new ReturnsTrueTester(),
             new ReturnsTrueTester(),
             new ReturnsTrueTester(),
-            new ReturnsTrueTester()
+            new ReturnsTrueTester(),
         );
 
         $this->assertEquals(true, $runner->test('somestring'));
@@ -31,7 +31,7 @@ class StringTesterRunnerTest extends \PHPUnit\Framework\TestCase
             new ReturnsTrueTester(),
             new ReturnsTrueTester(),
             new ReturnsTrueTester(),
-            new ReturnsFalseTester()
+            new ReturnsFalseTester(),
         );
 
         $this->assertEquals(false, $runner->test('somestring'));

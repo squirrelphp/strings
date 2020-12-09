@@ -17,7 +17,7 @@ class StreamlineInputWithNewlinesFilter implements StringFilterInterface
             new ReplaceTabsWithSpacesFilter(),
             new NormalizeNewlinesToUnixStyleFilter(),
             new RemoveExcessSpacesFilter(),
-            new LimitConsecutiveUnixNewlinesFilter(2)
+            new LimitConsecutiveUnixNewlinesFilter(2),
         );
     }
 

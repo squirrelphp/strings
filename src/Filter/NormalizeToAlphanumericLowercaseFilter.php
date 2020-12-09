@@ -22,7 +22,7 @@ class NormalizeToAlphanumericLowercaseFilter implements StringFilterInterface
     {
         $this->filterRunner = new StringFilterRunner(
             new NormalizeToAlphanumericFilter(),
-            new LowercaseFilter()
+            new LowercaseFilter(),
         );
     }
 

@@ -51,7 +51,7 @@ class ConverterUnicode implements CondenseNumberInterface
         $this->stringToNumber = \array_flip($this->numberToString);
 
         // Sanity check that no character appears twice
-        if (\count($this->numberToString) <> \count($this->stringToNumber)) {
+        if (\count($this->numberToString) !== \count($this->stringToNumber)) {
             throw $this->generateInvalidValueException('Character seems to be appearing twice in character set, which is not allowed / ambiguous');
         }
 

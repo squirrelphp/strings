@@ -41,7 +41,7 @@ class StringFilterProcessor
             // Find StringFilter annotation on the property
             $stringFilters = $this->annotationReader->getPropertyAnnotation(
                 $annotationProperty,
-                StringFilter::class
+                StringFilter::class,
             );
 
             // A StringFilters annotation was not found

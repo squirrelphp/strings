@@ -69,7 +69,7 @@ class FormExtensionTest extends \PHPUnit\Framework\TestCase
             [], // cookies
             [], // files
             [], // $_SERVER
-            '' // content
+            '', // content
         );
 
         $form = $this->formFactory->create(PublicPropertiesForm::class, $data)
@@ -96,7 +96,7 @@ class FormExtensionTest extends \PHPUnit\Framework\TestCase
             [], // cookies
             [], // files
             [], // $_SERVER
-            '' // content
+            '', // content
         );
 
         $form = $this->formFactory->create(PublicPropertiesEmptyDataForm::class)
@@ -135,7 +135,7 @@ class FormExtensionTest extends \PHPUnit\Framework\TestCase
             [], // cookies
             [], // files
             [], // $_SERVER
-            '' // content
+            '', // content
         );
 
         $form = $this->formFactory->create(PublicTypedPropertiesForm::class, $data)
@@ -169,7 +169,7 @@ class FormExtensionTest extends \PHPUnit\Framework\TestCase
             [], // cookies
             [], // files
             [], // $_SERVER
-            '' // content
+            '', // content
         );
 
         $form = $this->formFactory->create(PublicTypedPropertiesEmptyDataForm::class)
@@ -204,7 +204,7 @@ class FormExtensionTest extends \PHPUnit\Framework\TestCase
             [], // cookies
             [], // files
             [], // $_SERVER
-            '' // content
+            '', // content
         );
 
         $form = $this->formFactory->create(PrivatePropertiesForm::class, $data)
@@ -233,7 +233,7 @@ class FormExtensionTest extends \PHPUnit\Framework\TestCase
             [], // cookies
             [], // files
             [], // $_SERVER
-            '' // content
+            '', // content
         );
 
         $form = $this->formFactory->create(PrivateTypedPropertiesForm::class, $data)
