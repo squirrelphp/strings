@@ -31,7 +31,21 @@ class StringFilter
             throw $this->generateInvalidValueException('No arguments provided - either string or one array is mandatory');
         }
 
-        if (\count($arguments) === 1 && \is_array($arguments[0])) {
+        // This is the format by Doctrine annotation reader
+        if (
+            \count($arguments) === 1
+            && \is_array($arguments[0])
+            && \count($arguments[0]) === 1
+            && isset($arguments[0]['value'])
+            && \is_array($arguments[0]['value'])
+        ) {
+            // @codeCoverageIgnoreStart
+            $this->names = $arguments[0]['value'];
+            // @codeCoverageIgnoreEnd
+        } elseif (
+            \count($arguments) === 1
+            && \is_array($arguments[0])
+        ) {
             $this->names = $arguments[0];
         } else {
             $this->names = $arguments;
@@ -39,7 +53,7 @@ class StringFilter
 
         foreach ($this->names as $key => $name) {
             if (!\is_string($name)) {
-                throw $this->generateInvalidValueException('Non-string filter provided with index ' . $key . ': ' . Debug::sanitizeData($name));
+                throw $this->generateInvalidValueException('Non-string filter provided with index ' . $key . ': ' . Debug::sanitizeData($arguments));
             }
         }
     }

@@ -10,6 +10,7 @@ use Squirrel\Strings\Filter\LowercaseFilter;
 use Squirrel\Strings\Filter\TrimFilter;
 use Squirrel\Strings\StringFilterSelector;
 use Squirrel\Strings\Tests\TestClasses\ClassWithInvalidAnnotations;
+use Squirrel\Strings\Tests\TestClasses\ClassWithInvalidProperty;
 use Squirrel\Strings\Tests\TestClasses\ClassWithPrivateProperties;
 use Squirrel\Strings\Tests\TestClasses\ClassWithPublicProperties;
 
@@ -101,6 +102,22 @@ class StringFilterAnnotationProcessorTest extends \PHPUnit\Framework\TestCase
         $testClass = new ClassWithInvalidAnnotations();
 
         $this->processor->process($testClass);
+    }
+
+    public function testInvalidProperty()
+    {
+        $this->expectException(InvalidValueException::class);
+
+        $testClass = new ClassWithInvalidProperty();
+
+        $this->processor->process($testClass);
+    }
+
+    public function testStringFilterWithStrings()
+    {
+        $stringFilter = new StringFilter('Trim', 'Lowercase', 'Dada');
+
+        $this->assertEquals(['Trim', 'Lowercase', 'Dada'], $stringFilter->getNames());
     }
 
     public function testInvalidStringFilter()
