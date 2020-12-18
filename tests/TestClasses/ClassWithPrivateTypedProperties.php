@@ -9,11 +9,13 @@ class ClassWithPrivateTypedProperties
     /**
      * @StringFilter({"Lowercase","Trim"})
      */
+    #[StringFilter("Lowercase", "Trim")]
     private string $title = '';
 
     /**
      * @StringFilter("Trim")
      */
+    #[StringFilter("Trim")]
     private string $text = '';
 
     private $noAnnotation;

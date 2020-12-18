@@ -9,11 +9,13 @@ class ClassWithPublicTypedProperties
     /**
      * @StringFilter({"Lowercase","Trim"})
      */
+    #[StringFilter("Lowercase", "Trim")]
     public string $title = '';
 
     /**
      * @StringFilter("Trim")
      */
+    #[StringFilter("Trim")]
     public array $texts = [
         '',
         '',

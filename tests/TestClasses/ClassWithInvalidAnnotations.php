@@ -9,5 +9,6 @@ class ClassWithInvalidAnnotations
     /**
      * @StringFilter(0)
      */
+    #[StringFilter(0)]
     public $title = '';
 }

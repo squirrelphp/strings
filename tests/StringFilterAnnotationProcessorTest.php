@@ -102,4 +102,11 @@ class StringFilterAnnotationProcessorTest extends \PHPUnit\Framework\TestCase
 
         $this->processor->process($testClass);
     }
+
+    public function testInvalidStringFilter()
+    {
+        $this->expectException(InvalidValueException::class);
+
+        new StringFilter();
+    }
 }

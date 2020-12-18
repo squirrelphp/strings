@@ -32,43 +32,69 @@ class StringFilterProcessor
 
         // Go through all public values of the class
         foreach ($annotationClass->getProperties() as $property) {
-            // Get annotations for a propery
-            $annotationProperty = new \ReflectionProperty($class, $property->getName());
+            // @codeCoverageIgnoreStart
+            if (PHP_VERSION_ID >= 80000) {
+                $stringFilters = $this->getFromAttribute($property);
+            } else {
+                $stringFilters = $this->getFromAnnotation($property);
+            }
+            // @codeCoverageIgnoreEnd
 
-            // Make it possible to change private properties
-            $annotationProperty->setAccessible(true);
-
-            // Find StringFilter annotation on the property
-            $stringFilters = $this->annotationReader->getPropertyAnnotation(
-                $annotationProperty,
-                StringFilter::class,
-            );
-
-            // A StringFilters annotation was not found
-            if (!($stringFilters instanceof StringFilter)) {
+            if ($stringFilters === null) {
                 continue;
             }
 
+            // Make it possible to change private properties
+            $property->setAccessible(true);
+
             // Get the property value via reflection
-            $propertyValue = $annotationProperty->getValue($class);
+            $propertyValue = $property->getValue($class);
 
             // If the value is null we skip it
             if ($propertyValue === null) {
                 continue;
             }
 
-            $propertyValue = $this->filterScalarOrArray($propertyValue, $stringFilters->names);
+            $propertyValue = $this->filterScalarOrArray($propertyValue, $stringFilters->getNames());
 
-            $annotationProperty->setValue($class, $propertyValue);
+            $property->setValue($class, $propertyValue);
         }
+    }
+
+    // @codeCoverageIgnoreStart
+    private function getFromAttribute(\ReflectionProperty $property): ?StringFilter
+    {
+        $attributes = $property->getAttributes(StringFilter::class);
+
+        if (\count($attributes) === 0) {
+            return $this->getFromAnnotation($property);
+        }
+
+        return $attributes[0]->newInstance();
+    }
+    // @codeCoverageIgnoreEnd
+
+    private function getFromAnnotation(\ReflectionProperty $property): ?StringFilter
+    {
+        // Find StringFilter annotation on the property
+        $stringFilters = $this->annotationReader->getPropertyAnnotation(
+            $property,
+            StringFilter::class,
+        );
+
+        // A StringFilters annotation was not found
+        if (!($stringFilters instanceof StringFilter)) {
+            return null;
+        }
+
+        return $stringFilters;
     }
 
     /**
      * @param mixed $propertyValue
-     * @param string|array $stringFilters
      * @return string|array
      */
-    private function filterScalarOrArray($propertyValue, $stringFilters)
+    private function filterScalarOrArray($propertyValue, array $stringFilters)
     {
         if (
             (!\is_array($propertyValue) && !\is_scalar($propertyValue))
@@ -92,21 +118,12 @@ class StringFilterProcessor
         return $propertyValue;
     }
 
-    /**
-     * @param mixed $stringFilter
-     */
-    private function filterValue($stringFilter, string $string): string
+    private function filterValue(array $stringFilter, string $string): string
     {
-        // StringFilters just has one filter as a string - call it
-        if (\is_string($stringFilter)) {
-            return $this->stringFilterSelector->getFilter($stringFilter)->filter($string);
-        } elseif (\is_array($stringFilter)) {
-            foreach ($stringFilter as $name) {
-                $string = $this->stringFilterSelector->getFilter($name)->filter($string);
-            }
-            return $string;
+        foreach ($stringFilter as $name) {
+            $string = $this->stringFilterSelector->getFilter($name)->filter($string);
         }
 
-        throw $this->generateInvalidValueException('String filter annotation filters have to be specified as a string or an array');
+        return $string;
     }
 }
