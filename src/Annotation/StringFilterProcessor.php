@@ -61,7 +61,6 @@ class StringFilterProcessor
         }
     }
 
-    // @codeCoverageIgnoreStart
     private function getFromAttribute(\ReflectionProperty $property): ?StringFilter
     {
         $attributes = $property->getAttributes(StringFilter::class);
@@ -72,7 +71,6 @@ class StringFilterProcessor
 
         return $attributes[0]->newInstance();
     }
-    // @codeCoverageIgnoreEnd
 
     private function getFromAnnotation(\ReflectionProperty $property): ?StringFilter
     {

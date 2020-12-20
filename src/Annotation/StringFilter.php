@@ -18,7 +18,7 @@ class StringFilter
     /**
      * @var string[] Filter names which should be executed
      */
-    private array $names = [];
+    public array $names = [];
 
     /**
      * @param mixed $names

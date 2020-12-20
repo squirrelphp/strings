@@ -9,7 +9,6 @@ class ClassWithPrivateProperties
     /**
      * @StringFilter({"Lowercase","Trim"})
      */
-    #[StringFilter("Lowercase", "Trim")]
     private $title;
 
     /**
