@@ -15,7 +15,7 @@ use Squirrel\Strings\StringFilterRunner;
  */
 class NormalizeToAlphanumericFilter implements StringFilterInterface
 {
-    private StringFilterRunner $filterRunner;
+    private StringFilterInterface $filterRunner;
 
     public function __construct()
     {

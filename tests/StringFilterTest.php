@@ -27,6 +27,7 @@ use Squirrel\Strings\Filter\ReplaceTabsWithSpacesFilter;
 use Squirrel\Strings\Filter\ReplaceUnicodeWhitespacesFilter;
 use Squirrel\Strings\Filter\ReplaceUnixStyleNewlinesWithParagraphsAndBreaksFilter;
 use Squirrel\Strings\Filter\SnakeCaseToCamelCaseFilter;
+use Squirrel\Strings\Filter\StreamlineEmailFilter;
 use Squirrel\Strings\Filter\StreamlineInputNoNewlinesFilter;
 use Squirrel\Strings\Filter\StreamlineInputWithNewlinesFilter;
 use Squirrel\Strings\Filter\TrimFilter;
@@ -373,5 +374,23 @@ class StringFilterTest extends \PHPUnit\Framework\TestCase
     public function testRemoveHTMLCharacters()
     {
         $this->assertEquals("  &amp; haha strongmany/strong \xc2\xa0  &nbsp;  grüss götter   \r\n\n\n\t  \n  \n  invalidl'etat\\ thing contained!!!&trade; ", (new RemoveHTMLTagCharacters())->filter($this->testString));
+    }
+
+    public function testEmailStreamline()
+    {
+        $emails = [
+            'bademail' => 'bademail',
+            'BADEMAIL' => 'BADEMAIL',
+            'normal@email.com' => 'normal@email.com',
+            'UPPERCASE@email.com' => 'UPPERCASE@email.com',
+            'UPPERCASE@EMAIL.com' => 'UPPERCASE@email.com',
+            'normal@email.COM' => 'normal@email.com',
+        ];
+
+        $emailFilter = new StreamlineEmailFilter();
+
+        foreach ($emails as $input => $expectedOutput) {
+            $this->assertSame($expectedOutput, $emailFilter->filter($input));
+        }
     }
 }

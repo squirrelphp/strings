@@ -16,7 +16,7 @@ use Squirrel\Strings\StringFilterRunner;
  */
 class NormalizeToAlphanumericLowercaseFilter implements StringFilterInterface
 {
-    private StringFilterRunner $filterRunner;
+    private StringFilterInterface $filterRunner;
 
     public function __construct()
     {

@@ -10,7 +10,7 @@ use Squirrel\Strings\StringFilterRunner;
  */
 class StreamlineInputNoNewlinesFilter implements StringFilterInterface
 {
-    private StringFilterRunner $filterRunner;
+    private StringFilterInterface $filterRunner;
 
     public function __construct()
     {
