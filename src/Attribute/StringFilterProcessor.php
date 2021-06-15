@@ -1,8 +1,7 @@
 <?php
 
-namespace Squirrel\Strings\Annotation;
+namespace Squirrel\Strings\Attribute;
 
-use Doctrine\Common\Annotations\Reader;
 use Squirrel\Strings\Common\InvalidValueExceptionTrait;
 use Squirrel\Strings\StringFilterSelectInterface;
 
@@ -13,13 +12,8 @@ class StringFilterProcessor
 {
     use InvalidValueExceptionTrait;
 
-    private Reader $annotationReader;
-    private StringFilterSelectInterface $stringFilterSelector;
-
-    public function __construct(Reader $annotationReader, StringFilterSelectInterface $stringFilterSelector)
+    public function __construct(private StringFilterSelectInterface $stringFilterSelector)
     {
-        $this->annotationReader = $annotationReader;
-        $this->stringFilterSelector = $stringFilterSelector;
     }
 
     /**
@@ -32,13 +26,7 @@ class StringFilterProcessor
 
         // Go through all public values of the class
         foreach ($annotationClass->getProperties() as $property) {
-            // @codeCoverageIgnoreStart
-            if (PHP_VERSION_ID >= 80000) {
-                $stringFilters = $this->getFromAttribute($property);
-            } else {
-                $stringFilters = $this->getFromAnnotation($property);
-            }
-            // @codeCoverageIgnoreEnd
+            $stringFilters = $this->getFromAttribute($property);
 
             if ($stringFilters === null) {
                 continue;
@@ -66,33 +54,13 @@ class StringFilterProcessor
         $attributes = $property->getAttributes(StringFilter::class);
 
         if (\count($attributes) === 0) {
-            return $this->getFromAnnotation($property);
+            return null;
         }
 
         return $attributes[0]->newInstance();
     }
 
-    private function getFromAnnotation(\ReflectionProperty $property): ?StringFilter
-    {
-        // Find StringFilter annotation on the property
-        $stringFilters = $this->annotationReader->getPropertyAnnotation(
-            $property,
-            StringFilter::class,
-        );
-
-        // A StringFilters annotation was not found
-        if (!($stringFilters instanceof StringFilter)) {
-            return null;
-        }
-
-        return $stringFilters;
-    }
-
-    /**
-     * @param mixed $propertyValue
-     * @return string|array
-     */
-    private function filterScalarOrArray($propertyValue, array $stringFilters)
+    private function filterScalarOrArray(mixed $propertyValue, array $stringFilters): string|array
     {
         if (
             (!\is_array($propertyValue) && !\is_scalar($propertyValue))

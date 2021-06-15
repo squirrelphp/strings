@@ -9,7 +9,7 @@ use Squirrel\Strings\StringFilterSelector;
 
 class StringFilterSelectorTest extends \PHPUnit\Framework\TestCase
 {
-    public function testRegular()
+    public function testRegular(): void
     {
         $filters = [
             'Lowercase' => new LowercaseFilter(),
@@ -22,7 +22,7 @@ class StringFilterSelectorTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($filters['Trim'], $manager->getFilter('Trim'));
     }
 
-    public function testNotFound()
+    public function testNotFound(): void
     {
         $this->expectException(InvalidValueException::class);
 

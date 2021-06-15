@@ -14,7 +14,7 @@ class StringCondenseTest extends \PHPUnit\Framework\TestCase
     /**
      * Test ASCII converter/condenser
      */
-    public function testAscii()
+    public function testAscii(): void
     {
         // Charsets can be anything - just use some random examples
         $charsets = [
@@ -48,7 +48,7 @@ class StringCondenseTest extends \PHPUnit\Framework\TestCase
     /**
      * Test Unicode converter/condenser
      */
-    public function testUnicode()
+    public function testUnicode(): void
     {
         // Charsets can be anything - just use some random examples
         $charsets = [
@@ -79,7 +79,7 @@ class StringCondenseTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testNoCharset()
+    public function testNoCharset(): void
     {
         $this->expectException(InvalidValueException::class);
 
@@ -89,7 +89,7 @@ class StringCondenseTest extends \PHPUnit\Framework\TestCase
     /**
      * One character cannot appear multiple times: A appears twice in this test
      */
-    public function testInvalidCharset()
+    public function testInvalidCharset(): void
     {
         $this->expectException(InvalidValueException::class);
 
@@ -99,7 +99,7 @@ class StringCondenseTest extends \PHPUnit\Framework\TestCase
     /**
      * Too long a string
      */
-    public function testUnicodeTooLong()
+    public function testUnicodeTooLong(): void
     {
         $this->expectException(InvalidValueException::class);
 

@@ -8,21 +8,21 @@ use Squirrel\Strings\Random\GeneratorUnicode;
 
 class RandomStringTest extends \PHPUnit\Framework\TestCase
 {
-    public function testNoCharactersAscii()
+    public function testNoCharactersAscii(): void
     {
         $this->expectException(InvalidValueException::class);
 
         new GeneratorAscii('');
     }
 
-    public function testNoCharactersUnicode()
+    public function testNoCharactersUnicode(): void
     {
         $this->expectException(InvalidValueException::class);
 
         new GeneratorUnicode('');
     }
 
-    public function testNoLengthAscii()
+    public function testNoLengthAscii(): void
     {
         $this->expectException(InvalidValueException::class);
 
@@ -30,7 +30,7 @@ class RandomStringTest extends \PHPUnit\Framework\TestCase
         $generator->generate(0);
     }
 
-    public function testNoLengthUnicode()
+    public function testNoLengthUnicode(): void
     {
         $this->expectException(InvalidValueException::class);
 
@@ -38,14 +38,14 @@ class RandomStringTest extends \PHPUnit\Framework\TestCase
         $generator->generate(0);
     }
 
-    public function testAsciiCharacters()
+    public function testAsciiCharacters(): void
     {
         $generator = new GeneratorAscii('18');
 
         $this->assertSame(0, \preg_match('/[^18]/', $generator->generate(900)));
     }
 
-    public function testUnicodeCharacters()
+    public function testUnicodeCharacters(): void
     {
         $generator = new GeneratorUnicode('éç');
 

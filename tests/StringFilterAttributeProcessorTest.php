@@ -2,34 +2,24 @@
 
 namespace Squirrel\Strings\Tests;
 
-use Doctrine\Common\Annotations\AnnotationReader;
-use Squirrel\Strings\Annotation\StringFilter;
-use Squirrel\Strings\Annotation\StringFilterProcessor;
+use Squirrel\Strings\Attribute\StringFilter;
+use Squirrel\Strings\Attribute\StringFilterProcessor;
 use Squirrel\Strings\Exception\InvalidValueException;
 use Squirrel\Strings\Filter\LowercaseFilter;
 use Squirrel\Strings\Filter\TrimFilter;
 use Squirrel\Strings\StringFilterSelector;
-use Squirrel\Strings\Tests\TestClasses\ClassWithInvalidAnnotations;
+use Squirrel\Strings\Tests\TestClasses\ClassWithInvalidAttribute;
 use Squirrel\Strings\Tests\TestClasses\ClassWithInvalidProperty;
 use Squirrel\Strings\Tests\TestClasses\ClassWithPrivateProperties;
 use Squirrel\Strings\Tests\TestClasses\ClassWithPublicProperties;
 
-class StringFilterAnnotationProcessorTest extends \PHPUnit\Framework\TestCase
+class StringFilterAttributeProcessorTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var StringFilterProcessor
-     */
-    private $processor;
+    private StringFilterProcessor $processor;
 
     protected function setUp(): void
     {
         parent::setUp();
-
-        // Load annotation class, as it is not loaded automatically
-        \class_exists(StringFilter::class);
-
-        // Annotation reader, needed to find annotations
-        $reader = new AnnotationReader();
 
         // String filters available
         $manager = new StringFilterSelector([
@@ -38,10 +28,10 @@ class StringFilterAnnotationProcessorTest extends \PHPUnit\Framework\TestCase
         ]);
 
         // Processor of StringFilter annotations
-        $this->processor = new StringFilterProcessor($reader, $manager);
+        $this->processor = new StringFilterProcessor($manager);
     }
 
-    public function testPublicProperties()
+    public function testPublicProperties(): void
     {
         $testClass = new ClassWithPublicProperties();
         $testClass->title = '  HaHa ' . "\n";
@@ -53,7 +43,7 @@ class StringFilterAnnotationProcessorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('HiHiiii Ho', $testClass->text);
     }
 
-    public function testPublicPropertiesArray()
+    public function testPublicPropertiesArray(): void
     {
         $testClass = new ClassWithPublicProperties();
         $testClass->title = ['  HaHa ' . "\n", '   hOOOOO '];
@@ -64,7 +54,7 @@ class StringFilterAnnotationProcessorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('', $testClass->text);
     }
 
-    public function testPrivateProperties()
+    public function testPrivateProperties(): void
     {
         $testClass = new ClassWithPrivateProperties();
         $testClass->setTitle('  HaHa ' . " \n \t ");
@@ -75,7 +65,7 @@ class StringFilterAnnotationProcessorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('', $testClass->getText());
     }
 
-    public function testInvalidValue()
+    public function testInvalidValue(): void
     {
         $this->expectException(InvalidValueException::class);
 
@@ -85,7 +75,7 @@ class StringFilterAnnotationProcessorTest extends \PHPUnit\Framework\TestCase
         $this->processor->process($testClass);
     }
 
-    public function testInvalidArrayValue()
+    public function testInvalidArrayValue(): void
     {
         $this->expectException(InvalidValueException::class);
 
@@ -95,16 +85,16 @@ class StringFilterAnnotationProcessorTest extends \PHPUnit\Framework\TestCase
         $this->processor->process($testClass);
     }
 
-    public function testInvalidAnnotation()
+    public function testInvalidAnnotation(): void
     {
         $this->expectException(InvalidValueException::class);
 
-        $testClass = new ClassWithInvalidAnnotations();
+        $testClass = new ClassWithInvalidAttribute();
 
         $this->processor->process($testClass);
     }
 
-    public function testInvalidProperty()
+    public function testInvalidProperty(): void
     {
         $this->expectException(InvalidValueException::class);
 
@@ -113,14 +103,14 @@ class StringFilterAnnotationProcessorTest extends \PHPUnit\Framework\TestCase
         $this->processor->process($testClass);
     }
 
-    public function testStringFilterWithStrings()
+    public function testStringFilterWithStrings(): void
     {
         $stringFilter = new StringFilter('Trim', 'Lowercase', 'Dada');
 
         $this->assertEquals(['Trim', 'Lowercase', 'Dada'], $stringFilter->getNames());
     }
 
-    public function testInvalidStringFilter()
+    public function testInvalidStringFilter(): void
     {
         $this->expectException(InvalidValueException::class);
 

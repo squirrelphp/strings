@@ -16,15 +16,10 @@ class StringExtension extends AbstractExtension
 {
     use InvalidValueExceptionTrait;
 
-    private StringFilterSelectInterface $stringFilterSelector;
-    private RandomStringGeneratorSelectInterface $randomStringGeneratorSelector;
-
     public function __construct(
-        StringFilterSelectInterface $stringFilterSelector,
-        RandomStringGeneratorSelectInterface $randomStringGeneratorSelector
+        private StringFilterSelectInterface $stringFilterSelector,
+        private RandomStringGeneratorSelectInterface $randomStringGeneratorSelector,
     ) {
-        $this->stringFilterSelector = $stringFilterSelector;
-        $this->randomStringGeneratorSelector = $randomStringGeneratorSelector;
     }
 
     /**
@@ -54,10 +49,7 @@ class StringExtension extends AbstractExtension
         ];
     }
 
-    /**
-     * @param mixed $filters
-     */
-    private function stringFilter(string $string, $filters): string
+    private function stringFilter(string $string, mixed $filters): string
     {
         if (\is_array($filters)) {
             foreach ($filters as $filter) {

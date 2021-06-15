@@ -32,25 +32,25 @@ class TwigExtensionTest extends \PHPUnit\Framework\TestCase
         $this->stringExtension = new StringExtension($filterManager, $randomManager);
     }
 
-    public function testFilters()
+    public function testFilters(): void
     {
         $this->assertEquals('string_filter', ($this->stringExtension->getFilters()[0]->getName()));
         $this->assertEquals('haha', ($this->stringExtension->getFilters()[0]->getCallable())('HAHA', 'Lowercase'));
     }
 
-    public function testFunctionsFirst()
+    public function testFunctionsFirst(): void
     {
         $this->assertEquals('string_filter', ($this->stringExtension->getFunctions()[0]->getName()));
         $this->assertEquals('haha', ($this->stringExtension->getFunctions()[0]->getCallable())('  HAHA ' . "\n\t", ['Lowercase','Trim']));
     }
 
-    public function testFunctionsSecond()
+    public function testFunctionsSecond(): void
     {
         $this->assertEquals('string_random', ($this->stringExtension->getFunctions()[1]->getName()));
         $this->assertEquals(0, \preg_match('/[^18]/', ($this->stringExtension->getFunctions()[1]->getCallable())('eighteen', 900)));
     }
 
-    public function testInvalidFilters()
+    public function testInvalidFilters(): void
     {
         $this->expectException(InvalidValueException::class);
 

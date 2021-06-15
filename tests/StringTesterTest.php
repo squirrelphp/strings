@@ -7,7 +7,7 @@ use Squirrel\Strings\Tester\ValidUTF8Tester;
 
 class StringTesterTest extends \PHPUnit\Framework\TestCase
 {
-    public function testValidDateTime()
+    public function testValidDateTime(): void
     {
         $format = 'Y-m-d';
 
@@ -29,7 +29,7 @@ class StringTesterTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testValidUTF8()
+    public function testValidUTF8(): void
     {
         $tester = new ValidUTF8Tester();
 

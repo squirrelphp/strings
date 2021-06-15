@@ -9,7 +9,7 @@ use Squirrel\Strings\Filter\NormalizeLettersToAsciiFilter;
  */
 class NormalizeLettersToAsciiFilterTest extends \PHPUnit\Framework\TestCase
 {
-    private $codepointsToTest = [
+    private array $codepointsToTest = [
         192 => 'A', // À
         193 => 'A', // Á
         194 => 'A', // Â
@@ -609,7 +609,7 @@ class NormalizeLettersToAsciiFilterTest extends \PHPUnit\Framework\TestCase
         7934 => 'Y', // Ỿ
     ];
 
-    public function testCodepoints()
+    public function testCodepoints(): void
     {
         $filter = new NormalizeLettersToAsciiFilter();
 

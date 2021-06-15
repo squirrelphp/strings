@@ -3,8 +3,8 @@
 namespace Squirrel\Strings\Common;
 
 use Squirrel\Debug\Debug;
-use Squirrel\Strings\Annotation\StringFilterExtension;
-use Squirrel\Strings\Annotation\StringFilterProcessor;
+use Squirrel\Strings\Attribute\StringFilterExtension;
+use Squirrel\Strings\Attribute\StringFilterProcessor;
 use Squirrel\Strings\CondenseNumberInterface;
 use Squirrel\Strings\Exception\RegexException;
 use Squirrel\Strings\RandomStringGeneratorInterface;

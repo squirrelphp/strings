@@ -1,6 +1,6 @@
 <?php
 
-namespace Squirrel\Strings\Annotation;
+namespace Squirrel\Strings\Attribute;
 
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -13,18 +13,12 @@ use Symfony\Component\Form\FormEvents;
  */
 class StringFilterExtension extends AbstractTypeExtension
 {
-    private StringFilterProcessor $stringFiltersProcessor;
-
-    public function __construct(StringFilterProcessor $stringFiltersProcessor)
+    public function __construct(private StringFilterProcessor $stringFiltersProcessor)
     {
-        $this->stringFiltersProcessor = $stringFiltersProcessor;
     }
 
     /**
      * Filter data before submission
-     *
-     * @param FormBuilderInterface $builder The form builder
-     * @param array $options The options
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -51,8 +45,7 @@ class StringFilterExtension extends AbstractTypeExtension
 
                         // @codeCoverageIgnoreStart
                         if (
-                            PHP_VERSION_ID >= 80000
-                            && $reflectionPropertyType instanceof \ReflectionUnionType
+                            $reflectionPropertyType instanceof \ReflectionUnionType
                         ) {
                             $reflectionTypes = $reflectionPropertyType->getTypes();
                         } else {
@@ -98,8 +91,7 @@ class StringFilterExtension extends AbstractTypeExtension
 
                         // @codeCoverageIgnoreStart
                         if (
-                            PHP_VERSION_ID >= 80000
-                            && $reflectionPropertyType instanceof \ReflectionUnionType
+                            $reflectionPropertyType instanceof \ReflectionUnionType
                         ) {
                             $reflectionTypes = $reflectionPropertyType->getTypes();
                         } else {

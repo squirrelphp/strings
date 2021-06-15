@@ -4,8 +4,8 @@ namespace Squirrel\Strings\Tests\TestClasses;
 
 use Squirrel\Strings\Attribute\StringFilter;
 
-class ClassWithInvalidProperty
+class ClassWithInvalidAttribute
 {
-    #[StringFilter("Trim")]
-    public bool $title = false;
+    #[StringFilter(0)]
+    public $title = '';
 }

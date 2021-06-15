@@ -9,7 +9,7 @@ class RegexExceptionTraitTest extends \PHPUnit\Framework\TestCase
 {
     use RegexExceptionTrait;
 
-    public function testRegexException()
+    public function testRegexException(): void
     {
         $this->expectException(RegexException::class);
 

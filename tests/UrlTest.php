@@ -10,7 +10,7 @@ use Squirrel\Strings\Url;
  */
 class UrlTest extends \PHPUnit\Framework\TestCase
 {
-    public function testEmptyStart()
+    public function testEmptyStart(): void
     {
         // Empty URL
         $urlObj = new Url('');
@@ -25,7 +25,7 @@ class UrlTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('/?first=yeeeah', $urlObj->getAbsoluteUrl());
     }
 
-    public function testRelativeUrl()
+    public function testRelativeUrl(): void
     {
         // First URL
         $urlObj = new Url('/');
@@ -47,7 +47,7 @@ class UrlTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(null, $urlObj->get('redirect_url'));
     }
 
-    public function testAbsoluteUrl()
+    public function testAbsoluteUrl(): void
     {
         $urlObj = new Url('https://www.example.com/path/to/victory?first=1&second=2&third=3');
 
@@ -79,7 +79,7 @@ class UrlTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('/path/to/victory?first=939393333&second=2&third=3', $urlObj->getRelativeUrl());
     }
 
-    public function testReplacePartsInAbsoluteUrl()
+    public function testReplacePartsInAbsoluteUrl(): void
     {
         $urlObj = new Url('https://www.example.com/path/to/victory?first=1&second=2&third=3');
 
@@ -97,7 +97,7 @@ class UrlTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('first=1&second=2&third=3', $urlObj->getQueryString());
     }
 
-    public function testReplaceQueryString()
+    public function testReplaceQueryString(): void
     {
         $urlObj = new Url('https://www.example.com/path/to/victory?first=1&second=2&third=3');
 
@@ -117,7 +117,7 @@ class UrlTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('dudu', $urlObj->get('haha'));
     }
 
-    public function testComplexQueryString()
+    public function testComplexQueryString(): void
     {
         $urlObj = new Url('https://www.example.com/path/to/victory?first=1&second=2&third=3');
 
@@ -162,7 +162,7 @@ class UrlTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('other_val', $urlObj->get('four'));
     }
 
-    public function testEmptyQueryString()
+    public function testEmptyQueryString(): void
     {
         $urlObj = new Url('https://www.example.com/path/to/victory?first=1&second=2&third=3');
 
@@ -180,7 +180,7 @@ class UrlTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(null, $urlObj->get('third'));
     }
 
-    public function testInvalidScheme()
+    public function testInvalidScheme(): void
     {
         $this->expectException(UrlException::class);
 
@@ -189,7 +189,7 @@ class UrlTest extends \PHPUnit\Framework\TestCase
         $urlObj->setScheme('something');
     }
 
-    public function testInvalidUrl()
+    public function testInvalidUrl(): void
     {
         $this->expectException(UrlException::class);
 

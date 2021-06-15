@@ -2,18 +2,14 @@
 
 namespace Squirrel\Strings\Tests\TestClasses;
 
-use Squirrel\Strings\Annotation\StringFilter;
+use Squirrel\Strings\Attribute\StringFilter;
 
 class ClassWithPrivateProperties
 {
-    /**
-     * @StringFilter({"Lowercase","Trim"})
-     */
+    #[StringFilter("Lowercase", "Trim")]
     private $title;
 
-    /**
-     * @StringFilter("Trim")
-     */
+    #[StringFilter(["Trim"])]
     private $text;
 
     private $noAnnotation;

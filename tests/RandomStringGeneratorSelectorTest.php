@@ -9,7 +9,7 @@ use Squirrel\Strings\RandomStringGeneratorSelector;
 
 class RandomStringGeneratorSelectorTest extends \PHPUnit\Framework\TestCase
 {
-    public function testRegular()
+    public function testRegular(): void
     {
         $generators = [
             'one' => new GeneratorAscii('346789'),
@@ -22,7 +22,7 @@ class RandomStringGeneratorSelectorTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($generators['two'], $manager->getGenerator('two'));
     }
 
-    public function testNotFound()
+    public function testNotFound(): void
     {
         $this->expectException(InvalidValueException::class);
 

@@ -8,7 +8,7 @@ use Squirrel\Strings\Tests\TestTesters\ReturnsTrueTester;
 
 class StringTesterRunnerTest extends \PHPUnit\Framework\TestCase
 {
-    public function testRunner()
+    public function testRunner(): void
     {
         $runner = new StringTesterRunner(
             new ReturnsFalseTester(),

@@ -1,7 +1,7 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Method Squirrel\\\\Strings\\\\Annotation\\\\StringFilterProcessor\\:\\:getFromAttribute\\(\\) should return Squirrel\\\\Strings\\\\Annotation\\\\StringFilter\\|null but returns object\\.$#"
+			message: "#^Method Squirrel\\\\Strings\\\\Attribute\\\\StringFilterProcessor\\:\\:getFromAttribute\\(\\) should return Squirrel\\\\Strings\\\\Attribute\\\\StringFilter\\|null but returns object\\.$#"
 			count: 1
-			path: src/Annotation/StringFilterProcessor.php
+			path: src/Attribute/StringFilterProcessor.php
 

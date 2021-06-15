@@ -1,15 +1,10 @@
 <?php
 
-namespace Squirrel\Strings\Annotation;
+namespace Squirrel\Strings\Attribute;
 
-use Doctrine\Common\Annotations\Annotation;
 use Squirrel\Debug\Debug;
 use Squirrel\Strings\Common\InvalidValueExceptionTrait;
 
-/**
- * @Annotation
- * @Target({"PROPERTY"})
- */
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
 class StringFilter
 {
@@ -20,10 +15,7 @@ class StringFilter
      */
     public array $names = [];
 
-    /**
-     * @param mixed $names
-     */
-    public function __construct($names = null)
+    public function __construct(mixed $names = null)
     {
         $arguments = \func_get_args();
 
@@ -33,16 +25,6 @@ class StringFilter
 
         // This is the format by Doctrine annotation reader
         if (
-            \count($arguments) === 1
-            && \is_array($arguments[0])
-            && \count($arguments[0]) === 1
-            && isset($arguments[0]['value'])
-            && \is_array($arguments[0]['value'])
-        ) {
-            // @codeCoverageIgnoreStart
-            $this->names = $arguments[0]['value'];
-            // @codeCoverageIgnoreEnd
-        } elseif (
             \count($arguments) === 1
             && \is_array($arguments[0])
         ) {
