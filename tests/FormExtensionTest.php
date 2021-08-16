@@ -10,11 +10,13 @@ use Squirrel\Strings\StringFilterSelector;
 use Squirrel\Strings\Tests\TestClasses\ClassWithPrivateProperties;
 use Squirrel\Strings\Tests\TestClasses\ClassWithPrivateTypedProperties;
 use Squirrel\Strings\Tests\TestClasses\ClassWithPublicProperties;
+use Squirrel\Strings\Tests\TestClasses\ClassWithPublicPropertyPromotion;
 use Squirrel\Strings\Tests\TestClasses\ClassWithPublicTypedProperties;
 use Squirrel\Strings\Tests\TestForms\PrivatePropertiesForm;
 use Squirrel\Strings\Tests\TestForms\PrivateTypedPropertiesForm;
 use Squirrel\Strings\Tests\TestForms\PublicPropertiesEmptyDataForm;
 use Squirrel\Strings\Tests\TestForms\PublicPropertiesForm;
+use Squirrel\Strings\Tests\TestForms\PublicPropertyPromotionForm;
 use Squirrel\Strings\Tests\TestForms\PublicTypedPropertiesEmptyDataForm;
 use Squirrel\Strings\Tests\TestForms\PublicTypedPropertiesForm;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -240,5 +242,38 @@ class FormExtensionTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals('alsdjl dasdad', $data->getTitle());
         $this->assertEquals('a   II I ADHSAHZUsd', $data->getText());
+    }
+
+    public function testPublicTypedPropertyPromotionSubmit(): void
+    {
+        $data = new ClassWithPublicPropertyPromotion(
+            title: '    JOOOOPPPPPP    ',
+            text: '   cOrEcT  ',
+            other: '',
+        );
+
+        $request = Request::create(
+            'https://127.0.0.1/', // URI
+            'POST', // method
+            [ // post parameters
+                'public_property_promotion_form' => [
+                    'title' => '  alsdjl DASDAD ',
+                    'text' => '  a   II I ADHSAHZUsd ',
+                ],
+            ],
+            [], // cookies
+            [], // files
+            [], // $_SERVER
+            '', // content
+        );
+
+        $form = $this->formFactory->create(PublicPropertyPromotionForm::class, $data)
+            ->add('save', SubmitType::class, [
+                'label' => 'Save',
+            ]);
+        $form->handleRequest($request);
+
+        $this->assertEquals('alsdjl dasdad', $data->title);
+        $this->assertEquals('a   II I ADHSAHZUsd', $data->text);
     }
 }

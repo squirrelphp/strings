@@ -57,7 +57,7 @@
         "phpunit": "vendor/bin/phpunit --colors=always",
         "phpunit_clover": "vendor/bin/phpunit --coverage-text --coverage-clover build/logs/clover.xml",
         "coverage": "XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-html tests/_reports",
-        "phpcs": "vendor/bin/phpcs --standard=ruleset.xml --extensions=php --cache=.phpcs-cache --ignore=src/Attribute/StringFilter.php --colors src tests",
+        "phpcs": "vendor/bin/phpcs --standard=ruleset.xml --extensions=php --cache=.phpcs-cache --ignore=src/Attribute/StringFilter.php,tests/TestClasses/ClassWithPublicPropertyPromotion.php --colors src tests",
         "phpcsfix": "vendor/bin/phpcbf --standard=ruleset.xml --extensions=php --cache=.phpcs-cache --ignore=src/Attribute/StringFilter.php src tests",
         "binupdate": "@composer bin all update --ansi",
         "bininstall": "@composer bin all install --ansi"

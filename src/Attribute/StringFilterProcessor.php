@@ -32,8 +32,13 @@ class StringFilterProcessor
                 continue;
             }
 
-            // Make it possible to change private properties
+            // Make it possible to access and change private properties
             $property->setAccessible(true);
+
+            // If the property is not initialized, we skip it
+            if (!$property->isInitialized($class)) {
+                continue;
+            }
 
             // Get the property value via reflection
             $propertyValue = $property->getValue($class);

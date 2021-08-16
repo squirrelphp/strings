@@ -34,13 +34,15 @@ class StringFilterExtension extends AbstractTypeExtension
                 if (isset($options['empty_data']) && $options['empty_data'] instanceof $options['data_class']) {
                     $model = clone $options['empty_data'];
                 } else {
-                    $model = (new $options['data_class']());
+                    $model = (new \ReflectionClass($options['data_class']))->newInstanceWithoutConstructor();
                 }
 
                 // Assign values to the model only for direct properties
                 foreach ($data as $key => $value) {
                     if (\property_exists($model, $key)) {
                         $reflectionProperty = new \ReflectionProperty($model, $key);
+                        $reflectionProperty->setAccessible(true);
+
                         $reflectionPropertyType = $reflectionProperty->getType();
 
                         // @codeCoverageIgnoreStart
@@ -74,7 +76,6 @@ class StringFilterExtension extends AbstractTypeExtension
                         }
 
                         if ($hasSupportedType === true) {
-                            $reflectionProperty->setAccessible(true);
                             $reflectionProperty->setValue($model, $value);
                         }
                     }
@@ -87,6 +88,14 @@ class StringFilterExtension extends AbstractTypeExtension
                 foreach ($data as $key => $value) {
                     if (\property_exists($model, $key)) {
                         $reflectionProperty = new \ReflectionProperty($model, $key);
+                        $reflectionProperty->setAccessible(true);
+
+                        // @codeCoverageIgnoreStart
+                        if (!$reflectionProperty->isInitialized($model)) {
+                            continue;
+                        }
+                        // @codeCoverageIgnoreEnd
+
                         $reflectionPropertyType = $reflectionProperty->getType();
 
                         // @codeCoverageIgnoreStart
@@ -120,7 +129,6 @@ class StringFilterExtension extends AbstractTypeExtension
                         }
 
                         if ($hasSupportedType === true) {
-                            $reflectionProperty->setAccessible(true);
                             $data[$key] = $reflectionProperty->getValue($model);
                         }
                     }

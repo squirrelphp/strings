@@ -5,3 +5,8 @@ parameters:
 			count: 1
 			path: src/Attribute/StringFilterProcessor.php
 
+		-
+			message: "#^Property Squirrel\\\\Strings\\\\Condense\\\\ConverterUnicode\\:\\:\\$stringToNumber \\(array\\<string, int\\>\\) does not accept array\\<int\\|string, \\(int\\|string\\)\\>\\.$#"
+			count: 1
+			path: src/Condense/ConverterUnicode.php
+
