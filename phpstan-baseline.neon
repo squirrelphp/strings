@@ -1,9 +1,9 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Method Squirrel\\\\Strings\\\\Attribute\\\\StringFilterProcessor\\:\\:getFromAttribute\\(\\) should return Squirrel\\\\Strings\\\\Attribute\\\\StringFilter\\|null but returns object\\.$#"
+			message: "#^Parameter \\#1 \\$objectOrClass of class ReflectionClass constructor expects class\\-string\\<T of object\\>\\|T of object, string given\\.$#"
 			count: 1
-			path: src/Attribute/StringFilterProcessor.php
+			path: src/Attribute/StringFilterExtension.php
 
 		-
 			message: "#^Property Squirrel\\\\Strings\\\\Condense\\\\ConverterUnicode\\:\\:\\$stringToNumber \\(array\\<string, int\\>\\) does not accept array\\<int\\|string, \\(int\\|string\\)\\>\\.$#"

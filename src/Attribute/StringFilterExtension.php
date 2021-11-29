@@ -23,13 +23,18 @@ class StringFilterExtension extends AbstractTypeExtension
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         // Modify data before it is submitted/validated
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) use ($options) {
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) use ($options): void {
             // Retrieve submitted content
             $data = $event->getData();
             $form = $event->getForm();
 
             // We only want form elements with a data class and an array of values
-            if (\is_array($data) && \strlen($options['data_class']) > 0) {
+            if (
+                \is_array($data)
+                && isset($options['data_class'])
+                && \is_string($options['data_class'])
+                && \strlen($options['data_class']) > 0
+            ) {
                 // Create instance of the form data object, either from empty_data or by instantiating it
                 if (isset($options['empty_data']) && $options['empty_data'] instanceof $options['data_class']) {
                     $model = clone $options['empty_data'];

@@ -28,8 +28,8 @@
         "captainhook/plugin-composer": "^5.0",
         "phpunit/phpunit": "^9.0",
         "twig/twig": "^3.0",
-        "symfony/form": "^5.0",
-        "symfony/http-foundation": "^5.0"
+        "symfony/form": "^5.0|^6.0",
+        "symfony/http-foundation": "^5.0|^6.0"
     },
     "suggest": {
         "squirrelphp/strings-bundle": "Symfony integration of squirrelphp/strings"

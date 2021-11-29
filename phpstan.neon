@@ -6,5 +6,5 @@ parameters:
     paths:
         - src
     checkMissingIterableValueType: false
-    excludes_analyse:
+    excludePaths:
         - src/Filter/NormalizeLettersToAsciiFilter.php

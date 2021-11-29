@@ -1,2 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.9.3@4c262932602b9bbab5020863d1eb22d49de0dbf4"/>
+<files psalm-version="4.13.1@5cf660f63b548ccd4a56f62d916ee4d6028e01a3">
+  <file src="src/Attribute/StringFilterExtension.php">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$options['data_class']</code>
+    </ArgumentTypeCoercion>
+  </file>
+</files>

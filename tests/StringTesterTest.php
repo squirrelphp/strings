@@ -15,6 +15,8 @@ class StringTesterTest extends \PHPUnit\Framework\TestCase
 
         $testCases = [
             '2017-01-01' => true,
+            '2017-1-1' => false,
+            '17-01-01' => false,
             '2017/01/01' => false,
             '2017-02-30' => false,
             'illegal' => false,
@@ -22,6 +24,7 @@ class StringTesterTest extends \PHPUnit\Framework\TestCase
             0 => false,
             '2016-02-29' => true,
             '2015-02-29' => false,
+            '2016-2-29' => false,
         ];
 
         foreach ($testCases as $string => $result) {

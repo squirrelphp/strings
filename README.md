@@ -6,8 +6,9 @@ Squirrel Strings
 Handles common string operations in PHP applications:
 
 - [Filter a string](#filter-a-string) (remove newlines, remove excess spaces, wrap long words, etc.)
+- [Test a string](#test-a-string) (whether a string is valid UTF8 or whether it is in a valid datetime format)
 - [Generate a random string](#generate-a-random-string) with a set of characters
-- [Condense a string into a number](#condense-a-string-into-a-number), and convert back from a number to a string
+- [Condense a number into a string](#condense-a-string-into-a-number), and convert/expand a string into a number
 - [Process an URL](#url) and modify it in a safe way (convert to relative URL, change parts of it, etc.)
 
 Filter a string
@@ -258,6 +259,30 @@ Runs the following filters:
 - [RemoveExcessSpaces](#removeexcessspaces)
 
 Basically the same as [StreamlineInputWithNewlines](#streamlineinputwithnewlines) but newlines are converted to spaces. This is good for common user input like names, emails addresses and any other fields where newlines make no sense.
+
+Test a string
+-------------
+
+Tests a string and returns back true or false (whether the test was successful), using the `Squirrel\Strings\StringTesterInterface` interface:
+
+```php
+public function test(string $string): bool;
+```
+
+Additional testers can easily be defined by implementing `Squirrel\Strings\StringTesterInterface`. Possible ideas for custom testers in applications:
+
+- Check the structure of external data (which can be highly application dependent)
+- Check the string for allowed values or allowed characters
+
+This library has two default testers. Each tester class ends with a `Tester` suffix, which is not mentioned in the following list in order to keep the titles and texts more readable.
+
+#### ValidUTF8
+
+Checks that only valid UTF8 characters are contained within a string. If your application wants to be strict about external data it can make sense to reject any data with non-UTF8 characters (a less strict way of dealing with non-UTF8 characters would be the [RemoveNonUTF8Characters](#removenonutf8characters) filter).
+
+#### ValidDateTime
+
+Checks the string according to a datetime format accepted by the `date` function given in the constructor of this class (default is `Y-m-d` for the ISO date format with dashes between year, month and day) and makes sure the given date exists (`2021-02-29` would return false, yet `2020-02-29` would return true). When validating input this makes it easy to ensure a date is in the format you expect and can be used for further processing.
 
 Generate a random string
 ------------------------
