@@ -16,9 +16,6 @@ trait RegexExceptionTrait
 {
     private function generateRegexException(): \Throwable
     {
-        /**
-         * @var array $constants
-         */
         $constants = \get_defined_constants(true)['pcre'];
 
         // Find the regex error code

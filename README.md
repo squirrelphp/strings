@@ -10,6 +10,7 @@ Handles common string operations in PHP applications:
 - [Generate a random string](#generate-a-random-string) with a set of characters
 - [Condense a number into a string](#condense-a-string-into-a-number), and convert/expand a string into a number
 - [Process an URL](#url) and modify it in a safe way (convert to relative URL, change parts of it, etc.)
+- [Regex wrapper](#regex-wrapper) to better handle type hints and errors with the most common regex functions
 
 Filter a string
 ---------------
@@ -319,3 +320,8 @@ The URL class accepts an URL in the constructor and then lets you get or change 
 - Replace query string variables, or add/remove them
 
 This can be used to easily build or change your URLs, or to sanitize certain parts of a given URL, for example when redirecting: use the relative URL instead of the absolute URL to avoid malicious redirecting to somewhere outside of your control.
+
+Regex wrapper
+-------------
+
+Using the built-in `preg_match`, `preg_match_all`, `preg_replace` and `preg_replace_callback` functions often makes code less readable and harder to understand for static analyzers. `Squirrel\Strings\Regex` wraps the basic functionality of these preg functions and throws a `Squirrel\Strings\Exception\RegexException` if anything goes wrong.
