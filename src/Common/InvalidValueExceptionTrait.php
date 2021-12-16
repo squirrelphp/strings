@@ -16,14 +16,18 @@ trait InvalidValueExceptionTrait
 {
     private function generateInvalidValueException(string $message): \Throwable
     {
-        return Debug::createException(InvalidValueException::class, [
-            StringFilterInterface::class,
-            StringFilterSelectInterface::class,
-            RandomStringGeneratorInterface::class,
-            RandomStringGeneratorSelectInterface::class,
-            CondenseNumberInterface::class,
-            StringFilterProcessor::class,
-            StringFilterExtension::class,
-        ], $message);
+        return Debug::createException(
+            InvalidValueException::class,
+            $message,
+            ignoreClasses: [
+                StringFilterInterface::class,
+                StringFilterSelectInterface::class,
+                RandomStringGeneratorInterface::class,
+                RandomStringGeneratorSelectInterface::class,
+                CondenseNumberInterface::class,
+                StringFilterProcessor::class,
+                StringFilterExtension::class,
+            ],
+        );
     }
 }

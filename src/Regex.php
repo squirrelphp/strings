@@ -40,6 +40,9 @@ final class Regex
         int $flags = 0,
         int $offset = 0,
     ): ?array {
+        // Include unmatched subpatterns in $matches as null instead of empty string
+        $flags = $flags | PREG_UNMATCHED_AS_NULL;
+
         $result = @\preg_match_all($pattern, $subject, $matches, $flags, $offset);
 
         if (!\is_int($result)) {
@@ -142,8 +145,12 @@ final class Regex
             }
         }
 
-        return Debug::createException(RegexException::class, [
-            self::class,
-        ], 'Regex error in ' . __CLASS__ . ': ' . ( $error ?? 'Unrecognized error code' ));
+        return Debug::createException(
+            RegexException::class,
+            'Regex error in ' . __CLASS__ . ': ' . ( $error ?? 'Unrecognized error code' ),
+            ignoreClasses: [
+                self::class,
+            ],
+        );
     }
 }

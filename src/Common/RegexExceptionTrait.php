@@ -25,14 +25,18 @@ trait RegexExceptionTrait
             }
         }
 
-        return Debug::createException(RegexException::class, [
-            StringFilterInterface::class,
-            StringFilterSelectInterface::class,
-            RandomStringGeneratorInterface::class,
-            RandomStringGeneratorSelectInterface::class,
-            CondenseNumberInterface::class,
-            StringFilterProcessor::class,
-            StringFilterExtension::class,
-        ], 'Regex error in ' . __CLASS__ . ': ' . ( $error ?? 'Unrecognized error code' ));
+        return Debug::createException(
+            RegexException::class,
+            'Regex error in ' . __CLASS__ . ': ' . ( $error ?? 'Unrecognized error code' ),
+            ignoreClasses: [
+                StringFilterInterface::class,
+                StringFilterSelectInterface::class,
+                RandomStringGeneratorInterface::class,
+                RandomStringGeneratorSelectInterface::class,
+                CondenseNumberInterface::class,
+                StringFilterProcessor::class,
+                StringFilterExtension::class,
+            ],
+        );
     }
 }

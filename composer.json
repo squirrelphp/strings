@@ -20,7 +20,7 @@
     "require": {
         "php": ">=8.0",
         "ext-mbstring": "*",
-        "squirrelphp/debug": "^0.5"
+        "squirrelphp/debug": "^2.0"
     },
     "require-dev": {
         "ext-intl": "*",

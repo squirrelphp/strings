@@ -103,6 +103,13 @@ class StringFilterAttributeProcessorTest extends \PHPUnit\Framework\TestCase
         $this->processor->process($testClass);
     }
 
+    public function testStringFilterWithArray(): void
+    {
+        $stringFilter = new StringFilter(['Trim', 'Lowercase', 'Dada']);
+
+        $this->assertEquals(['Trim', 'Lowercase', 'Dada'], $stringFilter->getNames());
+    }
+
     public function testStringFilterWithStrings(): void
     {
         $stringFilter = new StringFilter('Trim', 'Lowercase', 'Dada');
@@ -110,10 +117,17 @@ class StringFilterAttributeProcessorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['Trim', 'Lowercase', 'Dada'], $stringFilter->getNames());
     }
 
-    public function testInvalidStringFilter(): void
+    public function testEmptyStringFilter(): void
     {
         $this->expectException(InvalidValueException::class);
 
-        new StringFilter();
+        new StringFilter('');
+    }
+
+    public function testNonStringStringFilter(): void
+    {
+        $this->expectException(InvalidValueException::class);
+
+        new StringFilter([0]);
     }
 }

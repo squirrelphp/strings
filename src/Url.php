@@ -27,7 +27,7 @@ class Url
 
         // For very bad URLs parse_url can return false
         if ($urlParts === false) {
-            throw Debug::createException(UrlException::class, self::class, 'Invalid URL provided');
+            throw Debug::createException(UrlException::class, 'Invalid URL provided', ignoreClasses: self::class);
         }
 
         $this->urlParts = $urlParts;
@@ -125,7 +125,7 @@ class Url
     public function setScheme(string $scheme): void
     {
         if ($scheme !== 'http' && $scheme !== 'https') {
-            throw Debug::createException(UrlException::class, self::class, 'Invalid URL scheme');
+            throw Debug::createException(UrlException::class, 'Invalid URL scheme', ignoreClasses: self::class);
         }
 
         $this->urlParts['scheme'] = $scheme;
