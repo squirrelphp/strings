@@ -35,7 +35,11 @@
         "squirrelphp/strings-bundle": "Symfony integration of squirrelphp/strings"
     },
     "config": {
-        "sort-packages": false
+        "sort-packages": false,
+        "allow-plugins": {
+            "bamarni/composer-bin-plugin": true,
+            "captainhook/plugin-composer": true
+        }
     },
     "autoload": {
         "psr-4": {

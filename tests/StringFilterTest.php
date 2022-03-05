@@ -15,6 +15,7 @@ use Squirrel\Strings\Filter\RemoveEmailsFilter;
 use Squirrel\Strings\Filter\RemoveExcessSpacesFilter;
 use Squirrel\Strings\Filter\RemoveHTMLTagCharacters;
 use Squirrel\Strings\Filter\RemoveHTMLTagsFilter;
+use Squirrel\Strings\Filter\RemoveNonAlphabeticFilter;
 use Squirrel\Strings\Filter\RemoveNonAlphanumericFilter;
 use Squirrel\Strings\Filter\RemoveNonAsciiAndControlCharactersFilter;
 use Squirrel\Strings\Filter\RemoveNonNumericFilter;
@@ -57,78 +58,78 @@ class StringFilterTest extends \PHPUnit\Framework\TestCase
      *
      * @var string
      */
-    private $testString = "  &amp; haha <strong>many</strong> \xc2\xa0  &nbsp;  grüss götter   \r\n\n\n\t  \n  \n  <invalid>\"l'etat\"\\ thing contained!!!&trade; ";
+    private $testString = "  &amp; haha 13<strong>many</strong> \xc2\xa0  &nbsp;  grüss götter   \r\n\n\n\t  \n  \n  <invalid>\"l'etat\"\\ thing contained!!!&trade; ";
 
     public function testDecodeAllHTMLEntities(): void
     {
-        $this->assertEquals("  & haha <strong>many</strong> \xc2\xa0  \xc2\xa0  grüss götter   \r\n\n\n\t  \n  \n  <invalid>\"l'etat\"\\ thing contained!!!™ ", (new DecodeAllHTMLEntitiesFilter())->filter($this->testString));
+        $this->assertEquals("  & haha 13<strong>many</strong> \xc2\xa0  \xc2\xa0  grüss götter   \r\n\n\n\t  \n  \n  <invalid>\"l'etat\"\\ thing contained!!!™ ", (new DecodeAllHTMLEntitiesFilter())->filter($this->testString));
     }
 
     public function testDecodeBasicHTMLEntities(): void
     {
-        $this->assertEquals("  & haha <strong>many</strong> \xc2\xa0  &nbsp;  grüss götter   \r\n\n\n\t  \n  \n  <invalid>\"l'etat\"\\ thing contained!!!&trade; ", (new DecodeBasicHTMLEntitiesFilter())->filter($this->testString));
+        $this->assertEquals("  & haha 13<strong>many</strong> \xc2\xa0  &nbsp;  grüss götter   \r\n\n\n\t  \n  \n  <invalid>\"l'etat\"\\ thing contained!!!&trade; ", (new DecodeBasicHTMLEntitiesFilter())->filter($this->testString));
     }
 
     public function testRemoveExcessSpaces(): void
     {
-        $this->assertEquals("&amp; haha <strong>many</strong> \xc2\xa0 &nbsp; grüss götter \r\n\n\n\t\n\n<invalid>\"l'etat\"\\ thing contained!!!&trade;", (new RemoveExcessSpacesFilter())->filter($this->testString));
+        $this->assertEquals("&amp; haha 13<strong>many</strong> \xc2\xa0 &nbsp; grüss götter \r\n\n\n\t\n\n<invalid>\"l'etat\"\\ thing contained!!!&trade;", (new RemoveExcessSpacesFilter())->filter($this->testString));
     }
 
     public function testRemoveHTML(): void
     {
-        $this->assertEquals("  &amp; haha many \xc2\xa0  &nbsp;  grüss götter   \r\n\n\n\t  \n  \n  \"l'etat\"\\ thing contained!!!&trade; ", (new RemoveHTMLTagsFilter())->filter($this->testString));
+        $this->assertEquals("  &amp; haha 13many \xc2\xa0  &nbsp;  grüss götter   \r\n\n\n\t  \n  \n  \"l'etat\"\\ thing contained!!!&trade; ", (new RemoveHTMLTagsFilter())->filter($this->testString));
     }
 
     public function testReplaceNewlinesWithSpaces(): void
     {
-        $this->assertEquals("  &amp; haha <strong>many</strong> \xc2\xa0  &nbsp;  grüss götter      \t        <invalid>\"l'etat\"\\ thing contained!!!&trade; ", (new ReplaceNewlinesWithSpacesFilter())->filter($this->testString));
+        $this->assertEquals("  &amp; haha 13<strong>many</strong> \xc2\xa0  &nbsp;  grüss götter      \t        <invalid>\"l'etat\"\\ thing contained!!!&trade; ", (new ReplaceNewlinesWithSpacesFilter())->filter($this->testString));
     }
 
     public function testReplaceTabsWithSpaces(): void
     {
-        $this->assertEquals("  &amp; haha <strong>many</strong> \xc2\xa0  &nbsp;  grüss götter   \r\n\n\n   \n  \n  <invalid>\"l'etat\"\\ thing contained!!!&trade; ", (new ReplaceTabsWithSpacesFilter())->filter($this->testString));
+        $this->assertEquals("  &amp; haha 13<strong>many</strong> \xc2\xa0  &nbsp;  grüss götter   \r\n\n\n   \n  \n  <invalid>\"l'etat\"\\ thing contained!!!&trade; ", (new ReplaceTabsWithSpacesFilter())->filter($this->testString));
     }
 
     public function testLimitConsecutiveUnixNewlinesFilter(): void
     {
-        $this->assertEquals("  &amp; haha <strong>many</strong> \xc2\xa0  &nbsp;  grüss götter   \r\n\n\t  \n  \n  <invalid>\"l'etat\"\\ thing contained!!!&trade; ", (new LimitConsecutiveUnixNewlinesFilter())->filter($this->testString));
+        $this->assertEquals("  &amp; haha 13<strong>many</strong> \xc2\xa0  &nbsp;  grüss götter   \r\n\n\t  \n  \n  <invalid>\"l'etat\"\\ thing contained!!!&trade; ", (new LimitConsecutiveUnixNewlinesFilter())->filter($this->testString));
     }
 
     public function testReplaceUnicodeWhitespaces(): void
     {
-        $this->assertEquals("  &amp; haha <strong>many</strong>    &nbsp;  grüss götter   \r\n\n\n\t  \n  \n  <invalid>\"l'etat\"\\ thing contained!!!&trade; ", (new ReplaceUnicodeWhitespacesFilter())->filter($this->testString));
+        $this->assertEquals("  &amp; haha 13<strong>many</strong>    &nbsp;  grüss götter   \r\n\n\n\t  \n  \n  <invalid>\"l'etat\"\\ thing contained!!!&trade; ", (new ReplaceUnicodeWhitespacesFilter())->filter($this->testString));
     }
 
     public function testLowercase(): void
     {
-        $this->assertEquals("  &amp; haha <strong>many</strong>    &nbsp;  grüss götter   \r\n\n\n\t  \n  \n  <invalid>\"l'etat\"\ thing contained!!!&trade; ", (new LowercaseFilter())->filter($this->testString));
+        $this->assertEquals("  &amp; haha 13<strong>many</strong>    &nbsp;  grüss götter   \r\n\n\n\t  \n  \n  <invalid>\"l'etat\"\ thing contained!!!&trade; ", (new LowercaseFilter())->filter($this->testString));
     }
 
     public function testUppercase(): void
     {
-        $this->assertEquals("  &AMP; HAHA <STRONG>MANY</STRONG>    &NBSP;  GRÜSS GÖTTER   \r\n\n\n\t  \n  \n  <INVALID>\"L'ETAT\"\ THING CONTAINED!!!&TRADE; ", (new UppercaseFilter())->filter($this->testString));
+        $this->assertEquals("  &AMP; HAHA 13<STRONG>MANY</STRONG>    &NBSP;  GRÜSS GÖTTER   \r\n\n\n\t  \n  \n  <INVALID>\"L'ETAT\"\ THING CONTAINED!!!&TRADE; ", (new UppercaseFilter())->filter($this->testString));
     }
 
     public function testUppercaseWordsFirstCharacter(): void
     {
-        $this->assertEquals("  &Amp; Haha <Strong>Many</Strong>    &Nbsp;  Grüss Götter   \r\n\n\n\t  \n  \n  <Invalid>\"L'Etat\"\ Thing Contained!!!&Trade; ", (new UppercaseWordsFirstCharacterFilter())->filter($this->testString));
+        $this->assertEquals("  &Amp; Haha 13<Strong>Many</Strong>    &Nbsp;  Grüss Götter   \r\n\n\n\t  \n  \n  <Invalid>\"L'Etat\"\ Thing Contained!!!&Trade; ", (new UppercaseWordsFirstCharacterFilter())->filter($this->testString));
     }
 
     public function testUppercaseFirstCharacter(): void
     {
-        $this->assertEquals("  &amp; haha <strong>many</strong>    &nbsp;  grüss götter   \r\n\n\n\t  \n  \n  <invalid>\"l'etat\"\ thing contained!!!&trade; ", (new UppercaseFirstCharacterFilter())->filter($this->testString));
+        $this->assertEquals("  &amp; haha 13<strong>many</strong>    &nbsp;  grüss götter   \r\n\n\n\t  \n  \n  <invalid>\"l'etat\"\ thing contained!!!&trade; ", (new UppercaseFirstCharacterFilter())->filter($this->testString));
     }
 
     public function testTrim(): void
     {
-        $this->assertEquals("&amp; haha <strong>many</strong> \xc2\xa0  &nbsp;  grüss götter   \r\n\n\n\t  \n  \n  <invalid>\"l'etat\"\\ thing contained!!!&trade;", (new TrimFilter())->filter($this->testString));
+        $this->assertEquals("&amp; haha 13<strong>many</strong> \xc2\xa0  &nbsp;  grüss götter   \r\n\n\n\t  \n  \n  <invalid>\"l'etat\"\\ thing contained!!!&trade;", (new TrimFilter())->filter($this->testString));
     }
 
     public function testRemoveNonUTF8Characters(): void
     {
         $nonUTF8 = utf8_decode($this->testString);
 
-        $this->assertEquals("  &amp; haha <strong>many</strong>   &nbsp;  grss gtter   \r\n\n\n\t  \n  \n  <invalid>\"l'etat\"\\ thing contained!!!&trade; ", (new RemoveNonUTF8CharactersFilter())->filter($nonUTF8));
+        $this->assertEquals("  &amp; haha 13<strong>many</strong>   &nbsp;  grss gtter   \r\n\n\n\t  \n  \n  <invalid>\"l'etat\"\\ thing contained!!!&trade; ", (new RemoveNonUTF8CharactersFilter())->filter($nonUTF8));
     }
 
     public function testWrapLongWordsNoHTML(): void
@@ -163,17 +164,23 @@ class StringFilterTest extends \PHPUnit\Framework\TestCase
 
     public function testRemoveNonAlphanumeric(): void
     {
-        $this->assertEquals('amphahastrongmanystrongnbspgrssgtterinvalidletatthingcontainedtrade', (new RemoveNonAlphanumericFilter())->filter($this->testString));
+        $this->assertEquals('amphaha13strongmanystrongnbspgrssgtterinvalidletatthingcontainedtrade', (new RemoveNonAlphanumericFilter())->filter($this->testString));
+    }
+
+    public function testRemoveNonAlphabetic(): void
+    {
+        $this->assertEquals('amphahastrongmanystrongnbspgrssgtterinvalidletatthingcontainedtrade', (new RemoveNonAlphabeticFilter())->filter($this->testString));
     }
 
     public function testRemoveNonNumeric(): void
     {
         $this->assertEquals('4513', (new RemoveNonNumericFilter())->filter('hallö 45 dadaismus! <huhu> 1/3'));
+        $this->assertEquals('13', (new RemoveNonNumericFilter())->filter($this->testString));
     }
 
     public function testReplaceNonAlphanumeric(): void
     {
-        $this->assertEquals('-amp-haha-strong-many-strong-nbsp-gr-ss-g-tter-invalid-l-etat-thing-contained-trade-', (new ReplaceNonAlphanumericFilter())->filter($this->testString));
+        $this->assertEquals('-amp-haha-13-strong-many-strong-nbsp-gr-ss-g-tter-invalid-l-etat-thing-contained-trade-', (new ReplaceNonAlphanumericFilter())->filter($this->testString));
     }
 
     public function testUrlFriendly(): void
@@ -184,12 +191,12 @@ class StringFilterTest extends \PHPUnit\Framework\TestCase
         $string = (new ReplaceNonAlphanumericFilter())->filter($string);
         $string = (new TrimFilter('-'))->filter($string);
 
-        $this->assertEquals('haha-strong-many-strong-nbsp-gruss-gotter-invalid-l-etat-thing-contained-trade', $string);
+        $this->assertEquals('haha-13-strong-many-strong-nbsp-gruss-gotter-invalid-l-etat-thing-contained-trade', $string);
     }
 
     public function testRemoveNonAsciiAndControlCharacters(): void
     {
-        $this->assertEquals('  &amp; haha <strong>many</strong>   &nbsp;  grss gtter         <invalid>"l\'etat"\\ thing contained!!!&trade; ', (new RemoveNonAsciiAndControlCharactersFilter())->filter($this->testString));
+        $this->assertEquals('  &amp; haha 13<strong>many</strong>   &nbsp;  grss gtter         <invalid>"l\'etat"\\ thing contained!!!&trade; ', (new RemoveNonAsciiAndControlCharactersFilter())->filter($this->testString));
     }
 
     public function testDecodeBasicHTMLEntitiesAndStreamlineInputWithNewlines(): void
@@ -198,7 +205,7 @@ class StringFilterTest extends \PHPUnit\Framework\TestCase
         $string = (new DecodeBasicHTMLEntitiesFilter())->filter($string);
         $string = (new StreamlineInputWithNewlinesFilter())->filter($string);
 
-        $this->assertEquals("& haha <strong>many</strong> &nbsp; grüss götter\n\n<invalid>\"l'etat\"\\ thing contained!!!&trade;", $string);
+        $this->assertEquals("& haha 13<strong>many</strong> &nbsp; grüss götter\n\n<invalid>\"l'etat\"\\ thing contained!!!&trade;", $string);
     }
 
     public function testStreamlineInputNoNewlines(): void
@@ -206,7 +213,7 @@ class StringFilterTest extends \PHPUnit\Framework\TestCase
         $string = $this->testString;
         $string = (new StreamlineInputNoNewlinesFilter())->filter($string);
 
-        $this->assertEquals("&amp; haha <strong>many</strong> &nbsp; grüss götter <invalid>\"l'etat\"\\ thing contained!!!&trade;", $string);
+        $this->assertEquals("&amp; haha 13<strong>many</strong> &nbsp; grüss götter <invalid>\"l'etat\"\\ thing contained!!!&trade;", $string);
     }
 
     public function testReplaceNewlinesWithParagraphsAndBreaks(): void
@@ -222,14 +229,14 @@ class StringFilterTest extends \PHPUnit\Framework\TestCase
     {
         $string = (new EncodeBasicHTMLEntitiesFilter())->filter($this->testString);
 
-        $this->assertEquals("  &amp;amp; haha &lt;strong&gt;many&lt;/strong&gt; \xc2\xa0  &amp;nbsp;  grüss götter   \r\n\n\n\t  \n  \n  &lt;invalid&gt;&quot;l&apos;etat&quot;\\ thing contained!!!&amp;trade; ", $string);
+        $this->assertEquals("  &amp;amp; haha 13&lt;strong&gt;many&lt;/strong&gt; \xc2\xa0  &amp;nbsp;  grüss götter   \r\n\n\n\t  \n  \n  &lt;invalid&gt;&quot;l&apos;etat&quot;\\ thing contained!!!&amp;trade; ", $string);
     }
 
     public function testNormalizeLettersToAscii(): void
     {
         $string = (new NormalizeLettersToAsciiFilter())->filter($this->testString);
 
-        $this->assertEquals("  &amp; haha <strong>many</strong> \xc2\xa0  &nbsp;  gruss gotter   \r\n\n\n\t  \n  \n  <invalid>\"l'etat\"\\ thing contained!!!&trade; ", $string);
+        $this->assertEquals("  &amp; haha 13<strong>many</strong> \xc2\xa0  &nbsp;  gruss gotter   \r\n\n\n\t  \n  \n  <invalid>\"l'etat\"\\ thing contained!!!&trade; ", $string);
     }
 
     public function testSnakeCaseToCamelCase(): void
@@ -373,7 +380,7 @@ class StringFilterTest extends \PHPUnit\Framework\TestCase
 
     public function testRemoveHTMLCharacters(): void
     {
-        $this->assertEquals("  &amp; haha strongmany/strong \xc2\xa0  &nbsp;  grüss götter   \r\n\n\n\t  \n  \n  invalidl'etat\\ thing contained!!!&trade; ", (new RemoveHTMLTagCharacters())->filter($this->testString));
+        $this->assertEquals("  &amp; haha 13strongmany/strong \xc2\xa0  &nbsp;  grüss götter   \r\n\n\n\t  \n  \n  invalidl'etat\\ thing contained!!!&trade; ", (new RemoveHTMLTagCharacters())->filter($this->testString));
     }
 
     public function testEmailStreamline(): void

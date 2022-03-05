@@ -172,6 +172,10 @@ Yet this might be overkill for generic user input, where you just want to try to
 
 Remove any characters which are not letters or numbers, so only A-Z, a-z and 0-9 are allowed. Can be handy for tokens, parts of an URL, an entered code, or other things where you know no other characters are allowed and you just want to ignore anything non-alphanumeric.
 
+#### RemoveNonAlphabetic
+
+Remove any characters which are not letters, so only A-Z and a-z are allowed. Can be handy for tokens, country or language codes, or other things where you know no other characters are allowed and you just want to ignore them.
+
 #### RemoveNonNumeric
 
 Remove any characters which are not numbers, so only 0-9 are allowed. Can be handy for tokens, parts of an URL, an entered code, or other things where you know no other characters are allowed and you just want to ignore them.
