@@ -12,6 +12,15 @@ Handles common string operations in PHP applications:
 - [Process an URL](#url) and modify it in a safe way (convert to relative URL, change parts of it, etc.)
 - [Regex wrapper](#regex-wrapper) to better handle type hints and errors with the most common regex functions
 
+Installation
+------------
+
+```
+composer require squirrelphp/strings
+```
+
+Alternatively [squirrelphp/strings-bundle](https://github.com/squirrelphp/strings-bundle) can be installed for easy integration in Symfony projects, as it provides many servides for dependency injection by default and lets you easily register additional functionality based on this library.
+
 Filter a string
 ---------------
 
@@ -292,7 +301,7 @@ Checks the string according to a datetime format accepted by the `date` function
 Generate a random string
 ------------------------
 
-Generates random strings according to a list of possible characters which can be used.
+Generates random strings according to a list of possible characters allowed in the string.
 
 With the two included classes (one with unicode support, one for ASCII-only) it is easy to define a random generator with your own set of characters which should be allowed to appear in a random string. These are sensible values:
 
@@ -328,4 +337,28 @@ This can be used to easily build or change your URLs, or to sanitize certain par
 Regex wrapper
 -------------
 
-Using the built-in `preg_match`, `preg_match_all`, `preg_replace` and `preg_replace_callback` functions often makes code less readable and harder to understand for static analyzers. `Squirrel\Strings\Regex` wraps the basic functionality of these preg functions and throws a `Squirrel\Strings\Exception\RegexException` if anything goes wrong.
+Using the built-in `preg_match`, `preg_match_all`, `preg_replace` and `preg_replace_callback` PHP functions often makes code less readable and harder to understand for static analyzers because of its uses of references (`$matches`) and the many possible return values. `Squirrel\Strings\Regex` wraps the basic functionality of these preg functions, creates easier to understand return values and throws a `Squirrel\Strings\Exception\RegexException` if anything goes wrong. These are the available static methods for the Regex class:
+
+#### `Regex::isMatch(string $pattern, string $subject, int $offset): bool`
+
+Wraps `preg_match` to check if `$pattern` exists in `$subject`.
+
+#### `Regex::getMatches(string $pattern, string $subject, int $flags, int $offset): ?array`
+
+Wraps `preg_match_all` to retrieve all occurences of `$pattern` in `$subject` with `PREG_UNMATCHED_AS_NULL` flag always set and the possibility to add additional flags. Returns null if no matches are found, otherwise the array of results as set by `preg_match_all` for `$matches`.
+
+#### `Regex::replace(string|array $pattern, string|array $replacement, string $subject, int $limit): string`
+
+Wraps `preg_replace` to replace occurences of `$pattern` with `$replacement` and only accepts a string as `$subject`.
+
+#### `Regex::replaceArray(string|array $pattern, string|array $replacement, array $subject, int $limit): array`
+
+Wraps `preg_replace` to replace occurences of `$pattern` with `$replacement` and only accepts an array as `$subject`.
+
+#### `Regex::replaceWithCallback(string|array $pattern, callback $callback, string $subject, int $limit, int $flags): string`
+
+Wraps `preg_replace_callback` to call a callback with the signature `function(array $matches): string` for each occurence of `$pattern` in `$subject` and only accepts a string as `$subject`.
+
+#### `Regex::replaceArrayWithCallback(string|array $pattern, callback $callback, array $subject, int $limit, int $flags): array`
+
+Wraps `preg_replace_callback` to call a callback with the signature `function(array $matches): string` for each occurence of `$pattern` in `$subject` and only accepts an array as `$subject`.
