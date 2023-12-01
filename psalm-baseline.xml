@@ -1,21 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="v4.15.0@a1b5e489e6fcebe40cb804793d964e99fc347820">
+<files psalm-version="5.16.0@2897ba636551a8cb61601cc26f6ccfbba6c36591">
   <file src="src/Attribute/StringFilter.php">
-    <DocblockTypeContradiction occurrences="1">
+    <DocblockTypeContradiction>
       <code>\is_string($name)</code>
     </DocblockTypeContradiction>
   </file>
   <file src="src/Attribute/StringFilterExtension.php">
-    <ArgumentTypeCoercion occurrences="1">
-      <code>$options['data_class']</code>
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$options['data_class']]]></code>
+    </ArgumentTypeCoercion>
+  </file>
+  <file src="src/Filter/NormalizeLettersToAsciiFilter.php">
+    <PossiblyNullArgument>
+      <code>\IntlChar::chr($codepointAsInt)</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/Regex.php">
+    <ArgumentTypeCoercion>
+      <code>$pattern</code>
+      <code>$pattern</code>
     </ArgumentTypeCoercion>
   </file>
   <file src="tests/StringFilterAttributeProcessorTest.php">
-    <InvalidArgument occurrences="1">
-      <code>''</code>
-    </InvalidArgument>
-    <InvalidScalarArgument occurrences="1">
+    <InvalidArgument>
+      <code><![CDATA['']]></code>
       <code>[0]</code>
-    </InvalidScalarArgument>
+    </InvalidArgument>
   </file>
 </files>

@@ -15,15 +15,17 @@ class TrimFilter implements StringFilterInterface
     private string $trimCharacters;
 
     /**
-     * @var string Default is to trim ascii characters
+     * @var callable
      */
-    private string $trimFunction = 'trimAscii';
+    private $trimFunction;
 
     public function __construct(string $trimCharacters = " \t\n\r\0\x0B")
     {
         // If trimCharacters contains unicode characters we change to the trimUnicode function
         if (\mb_strlen($trimCharacters, 'UTF-8') !== \strlen($trimCharacters)) {
-            $this->trimFunction = 'trimUnicode';
+            $this->trimFunction = $this->trimUnicode(...);
+        } else {
+            $this->trimFunction = $this->trimAscii(...);
         }
 
         $this->trimCharacters = $trimCharacters;
@@ -31,12 +33,7 @@ class TrimFilter implements StringFilterInterface
 
     public function filter(string $string): string
     {
-        /**
-         * @var callable $callable
-         */
-        $callable = [$this, $this->trimFunction];
-
-        return $callable($string, $this->trimCharacters);
+        return ($this->trimFunction)($string, $this->trimCharacters);
     }
 
     private function trimAscii(string $string, string $trimCharacters): string

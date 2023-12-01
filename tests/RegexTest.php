@@ -375,8 +375,8 @@ class RegexTest extends \PHPUnit\Framework\TestCase
                 return '';
             }, 'ladida');
         } catch (RegexException $e) {
-            $this->assertSame(__LINE__ - 2, $e->getOriginLine());
-            $this->assertSame(__LINE__ - 3, $e->getLine());
+            $this->assertSame(__LINE__ - 4, $e->getOriginLine());
+            $this->assertSame(__LINE__ - 5, $e->getLine());
             $this->assertSame(__FILE__, $e->getOriginFile());
             $this->assertStringStartsWith('Regex::replaceWithCallback(', $e->getOriginCall());
             $this->assertSame('Regex error in Squirrel\Strings\Regex: PREG_INTERNAL_ERROR', $e->getMessage());
@@ -390,8 +390,8 @@ class RegexTest extends \PHPUnit\Framework\TestCase
                 return '';
             }, ['ladida']);
         } catch (RegexException $e) {
-            $this->assertSame(__LINE__ - 2, $e->getOriginLine());
-            $this->assertSame(__LINE__ - 3, $e->getLine());
+            $this->assertSame(__LINE__ - 4, $e->getOriginLine());
+            $this->assertSame(__LINE__ - 5, $e->getLine());
             $this->assertSame(__FILE__, $e->getOriginFile());
             $this->assertStringStartsWith('Regex::replaceArrayWithCallback(', $e->getOriginCall());
             $this->assertSame('Regex error in Squirrel\Strings\Regex: PREG_INTERNAL_ERROR', $e->getMessage());
