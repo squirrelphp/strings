@@ -40,10 +40,8 @@ class Url
 
     /**
      * Add name and value pair to query string
-     *
-     * @param mixed $value
      */
-    public function add(string $name, $value): void
+    public function add(string $name, mixed $value): void
     {
         $this->queryStringArray[$name] = $value;
     }
@@ -72,10 +70,8 @@ class Url
 
     /**
      * Get the value of a query string part
-     *
-     * @return mixed
      */
-    public function get(string $name)
+    public function get(string $name): mixed
     {
         if (isset($this->queryStringArray[$name])) {
             return $this->queryStringArray[$name];

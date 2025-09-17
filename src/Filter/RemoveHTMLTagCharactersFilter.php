@@ -8,7 +8,7 @@ use Squirrel\Strings\StringFilterInterface;
 /**
  * Remove the HTML tag characters: < and > and "
  */
-class RemoveHTMLTagCharacters implements StringFilterInterface
+class RemoveHTMLTagCharactersFilter implements StringFilterInterface
 {
     use RegexExceptionTrait;
 

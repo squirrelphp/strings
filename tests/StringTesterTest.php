@@ -40,8 +40,8 @@ class StringTesterTest extends \PHPUnit\Framework\TestCase
             'höflich' => true,
             '9879837423' => true,
             '' => true,
-            \utf8_decode('hören') => false,
-            \utf8_decode('hallo') => true,
+            \mb_convert_encoding('hören', 'ISO-8859-1', 'UTF-8') => false,
+            \mb_convert_encoding('hallo', 'ISO-8859-1', 'UTF-8') => true,
         ];
 
         foreach ($testCases as $string => $result) {

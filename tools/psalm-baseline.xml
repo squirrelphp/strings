@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="6.13.1@1e3b7f0a8ab32b23197b91107adc0a7ed8a05b51">
+  <file src="src/Attribute/StringFilter.php">
+    <DocblockTypeContradiction>
+      <code><![CDATA[\is_string($name)]]></code>
+    </DocblockTypeContradiction>
+  </file>
+  <file src="src/Attribute/StringFilterExtension.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$options['data_class']]]></code>
+    </ArgumentTypeCoercion>
+  </file>
+  <file src="src/Condense/ConverterUnicode.php">
+    <InvalidOperand>
+      <code><![CDATA[$number % $this->characterCount]]></code>
+      <code><![CDATA[$number -= $number % $this->characterCount]]></code>
+      <code><![CDATA[$number /= $this->characterCount]]></code>
+    </InvalidOperand>
+  </file>
+  <file src="src/Filter/NormalizeLettersToAsciiFilter.php">
+    <PossiblyNullArgument>
+      <code><![CDATA[\IntlChar::chr($codepointAsInt)]]></code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/Filter/WrapLongWordsWithHTMLFilter.php">
+    <RiskyTruthyFalsyComparison>
+      <code><![CDATA[\preg_match_all('/([<][^>]+[>])/si', $string, $tags)]]></code>
+    </RiskyTruthyFalsyComparison>
+  </file>
+  <file src="src/Regex.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$pattern]]></code>
+      <code><![CDATA[$pattern]]></code>
+    </ArgumentTypeCoercion>
+  </file>
+  <file src="tests/RegexExceptionTraitTest.php">
+    <PossiblyFalseArgument>
+      <code><![CDATA[\mb_convert_encoding('öööö', 'ISO-8859-1', 'UTF-8')]]></code>
+    </PossiblyFalseArgument>
+  </file>
+  <file src="tests/StringFilterAttributeProcessorTest.php">
+    <InvalidArgument>
+      <code><![CDATA['']]></code>
+      <code><![CDATA[[0]]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="tests/StringFilterTest.php">
+    <PossiblyFalseArgument>
+      <code><![CDATA[$nonUTF8]]></code>
+    </PossiblyFalseArgument>
+  </file>
+</files>

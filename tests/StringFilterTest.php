@@ -13,7 +13,7 @@ use Squirrel\Strings\Filter\NormalizeToAlphanumericFilter;
 use Squirrel\Strings\Filter\NormalizeToAlphanumericLowercaseFilter;
 use Squirrel\Strings\Filter\RemoveEmailsFilter;
 use Squirrel\Strings\Filter\RemoveExcessSpacesFilter;
-use Squirrel\Strings\Filter\RemoveHTMLTagCharacters;
+use Squirrel\Strings\Filter\RemoveHTMLTagCharactersFilter;
 use Squirrel\Strings\Filter\RemoveHTMLTagsFilter;
 use Squirrel\Strings\Filter\RemoveNonAlphabeticFilter;
 use Squirrel\Strings\Filter\RemoveNonAlphanumericFilter;
@@ -127,7 +127,7 @@ class StringFilterTest extends \PHPUnit\Framework\TestCase
 
     public function testRemoveNonUTF8Characters(): void
     {
-        $nonUTF8 = utf8_decode($this->testString);
+        $nonUTF8 = \mb_convert_encoding($this->testString, 'ISO-8859-1', 'UTF-8');
 
         $this->assertEquals("  &amp; haha 13<strong>many</strong>   &nbsp;  grss gtter   \r\n\n\n\t  \n  \n  <invalid>\"l'etat\"\\ thing contained!!!&trade; ", (new RemoveNonUTF8CharactersFilter())->filter($nonUTF8));
     }
@@ -380,7 +380,7 @@ class StringFilterTest extends \PHPUnit\Framework\TestCase
 
     public function testRemoveHTMLCharacters(): void
     {
-        $this->assertEquals("  &amp; haha 13strongmany/strong \xc2\xa0  &nbsp;  grüss götter   \r\n\n\n\t  \n  \n  invalidl'etat\\ thing contained!!!&trade; ", (new RemoveHTMLTagCharacters())->filter($this->testString));
+        $this->assertEquals("  &amp; haha 13strongmany/strong \xc2\xa0  &nbsp;  grüss götter   \r\n\n\n\t  \n  \n  invalidl'etat\\ thing contained!!!&trade; ", (new RemoveHTMLTagCharactersFilter())->filter($this->testString));
     }
 
     public function testEmailStreamline(): void

@@ -13,7 +13,7 @@ class RegexExceptionTraitTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(RegexException::class);
 
-        $result = \preg_replace('/d/u', '', \utf8_decode('öööö'));
+        $result = \preg_replace('/d/u', '', \mb_convert_encoding('öööö', 'ISO-8859-1', 'UTF-8'));
 
         if ($result === null) {
             throw $this->generateRegexException();
